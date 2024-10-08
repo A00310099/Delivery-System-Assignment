@@ -15,7 +15,7 @@ public class DeliveryArea {
         this.areaID = areaID;
         this.areaName = areaName;
         this.addresses = addresses;
-        this.isArchived = false; // New areas are not archived by default
+        this.isArchived = false; 
     }
 
     // Getter and Setter methods for each attribute
