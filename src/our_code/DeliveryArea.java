@@ -7,11 +7,11 @@ public class DeliveryArea {
     
     private String areaID;           // Unique Area ID (e.g., AT000)
     private String areaName;         // Delivery Area Name (3-20 characters)
-    private List<String> addresses;  // List of valid addresses
+    private String addresses;  // List of valid addresses
     private boolean isArchived;      // Archive status (for 6 years)
 
     // Constructor
-    public DeliveryArea(String areaID, String areaName, List<String> addresses) {
+    public DeliveryArea(String areaID, String areaName, String addresses) {
         this.areaID = areaID;
         this.areaName = areaName;
         this.addresses = addresses;
@@ -31,11 +31,11 @@ public class DeliveryArea {
         this.areaName = areaName;
     }
 
-    public List<String> getAddresses() {
+    public String getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<String> addresses) {
+    public void setAddresses(String addresses) {
         this.addresses = addresses;
     }
 
