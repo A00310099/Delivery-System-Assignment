@@ -48,17 +48,17 @@ public class DeliveryArea {
     }
 
     // Validation methods (for User Story )
-    public static boolean isValidAreaID(String areaID) {
-        return areaID != null && areaID.matches("AT\\d{3}"); // Format: AT000
-    }
-
-    public static boolean isValidAreaName(String areaName) {
-        return areaName != null && areaName.length() >= 3 && areaName.length() <= 20;
-    }
-
-    public static boolean isValidAddresses(List<String> addresses) {
-        return addresses != null && !addresses.isEmpty();
-    }
+//    public static boolean isValidAreaID(String areaID) {
+//        return areaID != null && areaID.matches("AT\\d{3}"); // Format: AT000
+//    }
+//
+//    public static boolean isValidAreaName(String areaName) {
+//        return areaName != null && areaName.length() >= 3 && areaName.length() <= 20;
+//    }
+//
+//    public static boolean isValidAddresses(List<String> addresses) {
+//        return addresses != null && !addresses.isEmpty();
+//    }
 }
 
   
