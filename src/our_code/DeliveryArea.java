@@ -7,7 +7,7 @@ public class DeliveryArea {
     
     private String areaID;           // Unique Area ID (e.g., AT000)
     private String areaName;         // Delivery Area Name (3-20 characters)
-    private String addresses;  		 // List of valid addresses
+    private String addresses;  		 // List of valid addressess
     private boolean isArchived;      // Archive status (for 6 years)
 
     // Constructor
