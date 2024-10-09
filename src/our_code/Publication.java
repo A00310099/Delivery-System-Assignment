@@ -2,7 +2,7 @@ package our_code;
 
 public class Publication {
 	
-	private String publicationID;
+	private String publicationID; // Format PB000
 	private String publicationName;
 	private String publicationType;
 	private String publicationFreq;
@@ -19,7 +19,7 @@ public class Publication {
 	}
 
 	public String getPublicationID() {
-		return publicationID;
+		return this.publicationID;
 	}
 
 	public void setPublicationID(String publicationID) {
@@ -27,7 +27,7 @@ public class Publication {
 	}
 
 	public String getPublicationName() {
-		return publicationName;
+		return this.publicationName;
 	}
 
 	public void setPublicationName(String publicationName) {
@@ -35,7 +35,7 @@ public class Publication {
 	}
 
 	public String getPublicationType() {
-		return publicationType;
+		return this.publicationType;
 	}
 
 	public void setPublicationType(String publicationType) {
@@ -43,7 +43,7 @@ public class Publication {
 	}
 
 	public String getPublicationFreq() {
-		return publicationFreq;
+		return this.publicationFreq;
 	}
 
 	public void setPublicationFreq(String publicationFreq) {
@@ -51,7 +51,7 @@ public class Publication {
 	}
 
 	public int getPublicationStock() {
-		return publicationStock;
+		return this.publicationStock;
 	}
 
 	public void setPublicationStock(int publicationStock) {
@@ -59,7 +59,7 @@ public class Publication {
 	}
 
 	public double getPublicationCost() {
-		return publicationCost;
+		return this.publicationCost;
 	}
 
 	public void setPublicationCost(double publicationCost) {
