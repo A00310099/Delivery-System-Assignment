@@ -17,6 +17,15 @@ public class Publication {
 		this.publicationCost = pubCost;
 		
 	}
+	
+	public Publication() {
+		this.publicationID = null;
+		this.publicationName = null;
+		this.publicationFreq = null;
+		this.publicationStock = 0;
+		this.publicationCost = 0.0;
+		
+	}
 
 	public String getPublicationID() {
 		return this.publicationID;
@@ -66,23 +75,28 @@ public class Publication {
 		this.publicationCost = publicationCost;
 	}
 	
-	public void validatePubID (String pubID ) throws PublicationExceptionHandler {
+	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
+		return false;
 		
 	}
 	
-	public void validatePubName (String pubName ) throws PublicationExceptionHandler {
+	public boolean validatePubName (String pubName ) throws PublicationExceptionHandler {
+		return false;
 		
 	}
 	
-	public void validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
+	public boolean validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
+		return false;
 		
 	}
 	
-	public void validatePubStock (int pubStock ) throws PublicationExceptionHandler {
+	public boolean validatePubStock (int pubStock ) throws PublicationExceptionHandler {
+		return false;
 		
 	}
 	
-	public void validatePubCost (double pubCost) throws PublicationExceptionHandler {
+	public boolean validatePubCost (double pubCost) throws PublicationExceptionHandler {
+		return false;
 		
 	}
 
