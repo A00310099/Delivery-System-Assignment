@@ -42,7 +42,7 @@ public class Customer {
 		this.phoneNumber = custPhone;
 	}
 	
-	public String phoneNumber()	{
+	public String getphoneNumber()	{
 		return phoneNumber;
 	}
 	
@@ -52,6 +52,31 @@ public class Customer {
 	
 	public String getStatus()	{
 		return status;
+	}
+	
+	public boolean validateName(String custName) throws CustomerExceptionHandler {
+		return false;
+		
+		//Agree Formating Rules on "Customer Name"
+		//E.G. Name String must be a minimum of 2 characters and a maximum of 50 characters
+	
+		
+	}
+	
+	public boolean validateAddress(String custAddr) throws CustomerExceptionHandler {
+		
+		return false;
+		
+	}
+	
+	public  boolean validatePhoneNumber(String custPhone) throws CustomerExceptionHandler {
+		
+		return false;
+		
+	}
+	
+	public boolean validateCustomerID(int custId) throws CustomerExceptionHandler {
+		return false;
 	}
 	
 }
