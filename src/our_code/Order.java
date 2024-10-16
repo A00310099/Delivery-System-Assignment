@@ -14,7 +14,7 @@ public class Order {
 	public int getID() {
 		return this.orderID;
 	}
-	public int getPublication() {
+	public int getPublicationID() {
 		return this.publicationID;
 	}
 	public String getWeekDay() {
@@ -25,7 +25,7 @@ public class Order {
 	}
 	
 	// Setters
-	public void setPublication(int id) {
+	public void setPublicationID(int id) {
 		this.publicationID = id;
 	}
 	public void setWeekDay(String day) {
@@ -36,15 +36,30 @@ public class Order {
 	}
 	
 	// Validate methods
-	public void validatePublication(int id) throws OrderException {
-		// TODO validate method
+	public boolean validatePublicationID(int id) throws OrderException {
+		// Publication ID cannot be 0 or a negative number
+		if (id <= 0) {
+			throw new OrderException("Publication ID must be greater than 0");
+		}
+		return true;
 	}
 	
-	public void validateWeekDay(String day) throws OrderException {
-		// TODO validate method
+	public boolean validateWeekDay(String day) throws OrderException {
+		day = day.toLowerCase(); // Make the passed string case-insensitive
+		
+		if (day.equals("monday") || day.equals("tuesday") || day.equals("wednesday") || day.equals("thursday") ||
+				day.equals("friday") || day.equals("saturday") || day.equals("sunday")) {
+			return true;
+		} else {
+			throw new OrderException("Invalid day of the week entered");
+		}
 	}
 	
-	public void validateCustomerID(int id) throws OrderException {
-		// TODO validate method
+	public boolean validateCustomerID(int id) throws OrderException {
+		// Customer ID cannot be 0 or a negative number
+		if (id <= 0) {
+			throw new OrderException("Customer ID must be greater than 0");
+		}
+		return true;
 	}
 }
