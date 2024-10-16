@@ -11,14 +11,18 @@ public class CustomerTest {
 	
 	@Test
 	public void testValidName () throws CustomerExceptionHandler {
-		assertTrue(customer.validateName("abcdef")); // VEC: 4 characters
-        assertTrue(customer.validateName("abcdefghijklmno")); // VEC: 64 characters
+		assertTrue(customer.validateName("abcd")); // VEC: 4 characters
+        assertTrue(customer.validateName("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkl")); // VEC: 64 characters
     }
 
 	@Test
 	public void testInvalidName () throws CustomerExceptionHandler {
-		assertTrue(customer.validateName("abcdef")); // VEC: 3 characters
-        assertTrue(customer.validateName("abcdefghijklmno")); // VEC: 65 characters
+        assertThrows(CustomerExceptionHandler.class, () -> {
+            customer.validateName("abc"); // IEC: 3
+        });
+        assertThrows(CustomerExceptionHandler.class, () -> {
+            customer.validateName("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnop"); // IEC: > 65 characters
+        });
     }
 
 	@Test
@@ -27,9 +31,9 @@ public class CustomerTest {
 	}	
 	
 	@Test
-//	public void testInvalidCustomerID() throws CustomerExceptionHandler {
-//		assertTrue(customer.validateCustomerID(35353567)); 
-//	}
+	public void testInvalidCustomerID() throws CustomerExceptionHandler {
+		assertTrue(customer.validateCustomerID(35353567)); 
+	}
 	
 	public void testValidPhoneNumber() throws CustomerExceptionHandler {
 		assertTrue(customer.validatePhoneNumber("0893344567")); 
@@ -48,8 +52,16 @@ public class CustomerTest {
 	public void testInvalidAddress() throws CustomerExceptionHandler {
 		assertTrue(customer.validateAddress("13 ")); 
 	}
-	
-	
+	@Test
+	public void testValidStatus() throws CustomerExceptionHandler	{
+		assertTrue(customer.validateStatus("Yes"));
+		assertTrue(customer.validateStatus("No"));
+	}
+	@Test
+	public void testInvalidStatus() throws CustomerExceptionHandler	{
+		assertTrue(customer.validateStatus("What???"));	
+	}
+
 }
 	
 	
