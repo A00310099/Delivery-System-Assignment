@@ -15,8 +15,8 @@ public class Database {
 	private ResultSet resultSet = null;
 	
 	final private String host ="localhost:3306";
-	final private String user = "root";
-	final private String password = "mike";
+	final private String user = "";
+	final private String password = "";
 	
 	
 	public Database() throws Exception {
