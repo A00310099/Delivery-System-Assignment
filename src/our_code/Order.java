@@ -2,7 +2,7 @@ package our_code;
 
 public class Order {
 	private int orderID;
-	private Publication publication;
+	private int publicationID;
 	private String weekDay;
 	private int customerID;
 	
@@ -14,8 +14,8 @@ public class Order {
 	public int getID() {
 		return this.orderID;
 	}
-	public Publication getPublication() {
-		return this.publication;
+	public int getPublication() {
+		return this.publicationID;
 	}
 	public String getWeekDay() {
 		return this.weekDay;
@@ -25,8 +25,8 @@ public class Order {
 	}
 	
 	// Setters
-	public void setPublication(Publication p) {
-		this.publication = p;
+	public void setPublication(int id) {
+		this.publicationID = id;
 	}
 	public void setWeekDay(String day) {
 		this.weekDay = day;
@@ -36,7 +36,7 @@ public class Order {
 	}
 	
 	// Validate methods
-	public void validatePublication(Publication p) throws OrderException {
+	public void validatePublication(int id) throws OrderException {
 		// TODO validate method
 	}
 	
