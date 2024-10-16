@@ -20,36 +20,54 @@ public class UserCommandLine {
 			while (appRunning) {
 				listEntitiesAvailable();
 				functionNumber = in.nextLine();
+				functionNumber = functionNumber.toLowerCase();
 				
 				switch (functionNumber) {
+				case "customer":
+				case "c":
 				case "1":
 					manageCustomer();
 					break;
 					
+				case "publication":
+				case "p":
 				case "2":
 					managePublication();
 					break;
 					
+				case "order":
+				case "o":
 				case "3":
 					manageOrder();
 					break;
 					
+				case "invoice":
+				case "i":
 				case "4":
 					manageInvoice();
 					break;
 					
+				case "delivery docket":
+				case "dd":
 				case "5":
 					manageDeliveryDocket();
 					break;
 					
+				case "delivery area":
+				case "da":
 				case "6":
 					manageDeliveryArea();
 					break;
 					
+				case "delivery person":
+				case "dp":
 				case "7":
 					manageDeliveryPerson();
 					break;
 					
+				case "exit":
+				case "close":
+				case "x":
 				case "0":
 					appRunning = false;
 					System.out.println("Closing the application...");
@@ -76,19 +94,19 @@ public class UserCommandLine {
 		System.out.println("5. Delivery Docket");
 		System.out.println("6. Delivery Area");
 		System.out.println("7. Delivery Person");
-		System.out.println("\n0. [Close the application]");
+		System.out.println("\n0. [Close] the application");
 		System.out.println(separator + "\n");
 	}
 	
 	private static void listEntityOptions(String entity) {
 		System.out.println(separator);
 		System.out.println("MANAGING " + entity.toUpperCase() + "S - Please select one option:");
-		System.out.println("1. Create a new " + entity + " record");
-		System.out.println("2. View all " + entity + " records");
-		System.out.println("3. View " + entity + " record by ID");
-		System.out.println("4. Update " + entity + " record by ID");
-		System.out.println("5. Delete " + entity + " record by ID");
-		System.out.println("\n0. Return to Entity Management");
+		System.out.println("1. [Create] a new " + entity + " record");
+		System.out.println("2. [View All] " + entity + " records");
+		System.out.println("3. [View] " + entity + " record by ID");
+		System.out.println("4. [Update] " + entity + " record by ID");
+		System.out.println("5. [Delete] " + entity + " record by ID");
+		System.out.println("\n0. [Return] to Entity Management");
 		System.out.println(separator + "\n");
 	}
 	
@@ -98,29 +116,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Customer");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating customer... [NOT YET IMPLEMENTED]"); //TODO Create Customer
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Customer records... [NOT YET IMPLEMENTED]"); //TODO Read all Customers
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Customer record... [NOT YET IMPLEMENTED]"); //TODO Read Customer by ID
 				break;
-				
-			case "4": // Update
+			
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Customer record... [NOT YET IMPLEMENTED]"); //TODO Update Customer
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Customer record... [NOT YET IMPLEMENTED]"); //TODO Delete Customer
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -139,29 +172,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Publication");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Publication... [NOT YET IMPLEMENTED]"); //TODO Create Publication
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Publication records... [NOT YET IMPLEMENTED]"); //TODO Read all Publications
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Publication record... [NOT YET IMPLEMENTED]"); //TODO Read Publication by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Publication record... [NOT YET IMPLEMENTED]"); //TODO Update Publication
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Publication record... [NOT YET IMPLEMENTED]"); //TODO Delete Publication
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -180,29 +228,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Order");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Order... [NOT YET IMPLEMENTED]"); //TODO Create Order
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Order records... [NOT YET IMPLEMENTED]"); //TODO Read all Orders
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Order record... [NOT YET IMPLEMENTED]"); //TODO Read Order by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Order record... [NOT YET IMPLEMENTED]"); //TODO Update Order
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Order record... [NOT YET IMPLEMENTED]"); //TODO Delete Order
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -221,29 +284,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Invoice");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Invoice... [NOT YET IMPLEMENTED]"); //TODO Create Invoice
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Invoice records... [NOT YET IMPLEMENTED]"); //TODO Read all Invoices
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Invoice record... [NOT YET IMPLEMENTED]"); //TODO Read Invoice by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Invoice record... [NOT YET IMPLEMENTED]"); //TODO Update Invoice
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Invoice record... [NOT YET IMPLEMENTED]"); //TODO Delete Invoice
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -262,29 +340,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Delivery Docket");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Delivery Docket... [NOT YET IMPLEMENTED]"); //TODO Create Delivery Docket
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Delivery Docket records... [NOT YET IMPLEMENTED]"); //TODO Read all Delivery Dockets
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Delivery Docket record... [NOT YET IMPLEMENTED]"); //TODO Read Delivery Docket by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Delivery Docket record... [NOT YET IMPLEMENTED]"); //TODO Update Delivery Docket
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Delivery Docket record... [NOT YET IMPLEMENTED]"); //TODO Delete Delivery Docket
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -303,29 +396,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Delivery Area");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Delivery Area... [NOT YET IMPLEMENTED]"); //TODO Create Delivery Area
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Delivery Area records... [NOT YET IMPLEMENTED]"); //TODO Read all Delivery Areas
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Delivery Area record... [NOT YET IMPLEMENTED]"); //TODO Read Delivery Area by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Delivery Area record... [NOT YET IMPLEMENTED]"); //TODO Update Delivery Area
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Delivery Area record... [NOT YET IMPLEMENTED]"); //TODO Delete Delivery Area
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
@@ -344,29 +452,44 @@ public class UserCommandLine {
 		while (managingEntity) {
 			listEntityOptions("Delivery Person");
 			functionNumber = in.nextLine();
+			functionNumber = functionNumber.toLowerCase();
 			
 			switch(functionNumber) {
-			case "1": // Create
+			case "create":
+			case "c":
+			case "1":
 				System.out.println("Creating Delivery Person... [NOT YET IMPLEMENTED]"); //TODO Create Delivery Person
 				break;
 				
-			case "2": // Read (all)
+			case "view all":
+			case "va":
+			case "2":
 				System.out.println("Viewing all Delivery Person records... [NOT YET IMPLEMENTED]"); //TODO Read all Delivery People
 				break;
 				
-			case "3": // Read (one)
+			case "view":
+			case "v":
+			case "3":
 				System.out.println("Viewing specific Delivery Person record... [NOT YET IMPLEMENTED]"); //TODO Read Delivery Person by ID
 				break;
 				
-			case "4": // Update
+			case "update":
+			case "u":
+			case "4":
 				System.out.println("Updating Delivery Person record... [NOT YET IMPLEMENTED]"); //TODO Update Delivery Person
 				break;
 				
-			case "5": // Delete
+			case "delete":
+			case "d":
+			case "5":
 				System.out.println("Deleting Delivery Person record... [NOT YET IMPLEMENTED]"); //TODO Delete Delivery Person
 				break;
 				
-			case "0": // Go back
+			case "back":
+			case "return":
+			case "exit":
+			case "close":
+			case "0":
 				managingEntity = false;
 				System.out.println("Returning to Entity Management...");
 				break;
