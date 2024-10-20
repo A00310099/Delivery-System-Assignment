@@ -11,7 +11,7 @@ public class CustomerTest {
 	
 	@Test
 	public void testValidName () throws CustomerExceptionHandler {
-		assertTrue(customer.validateName("abcd")); // VEC: 4 characters
+		assertTrue(customer.validateName("abcde")); // VEC: 4 characters
         assertTrue(customer.validateName("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkl")); // VEC: 64 characters
     }
 
@@ -27,39 +27,53 @@ public class CustomerTest {
 
 	@Test
 	public void testValidCustomerID() throws CustomerExceptionHandler {
-		assertTrue(customer.validateCustomerID(001)); 
+		assertTrue(customer.validateCustomerID(1)); 
 	}	
 	
 	@Test
-	public void testInvalidCustomerID() throws CustomerExceptionHandler {
-		assertTrue(customer.validateCustomerID(35353567)); 
+	void testInvalidCustomerID() throws CustomerExceptionHandler {
+		assertThrows(CustomerExceptionHandler .class, () -> {
+			customer.validateCustomerID(0);
+		});
 	}
-	
-	public void testValidPhoneNumber() throws CustomerExceptionHandler {
-		assertTrue(customer.validatePhoneNumber("0893344567")); 
-	}	
 	
 	@Test
 	public void testInvalidPhoneNumber() throws CustomerExceptionHandler {
-		assertTrue(customer.validatePhoneNumber(" 0s97x9778-")); 
+	     assertThrows(CustomerExceptionHandler.class, () -> {
+	            customer.validatePhoneNumber("089334456"); // IEC < 10
+	        });
+	        assertThrows(CustomerExceptionHandler.class, () -> {
+	            customer.validatePhoneNumber("08933445678"); // IEC: > 10 characters
+	        }); 
 	}
-	
+	@Test
+	public void testValidPhoneNumber() throws CustomerExceptionHandler {
+		assertTrue(customer.validatePhoneNumber("0893344567")); 
+	}
+	@Test
 	public void testValidAddress() throws CustomerExceptionHandler {
 		assertTrue(customer.validateAddress("13 Monksland ")); 
 	}	
 	
 	@Test
 	public void testInvalidAddress() throws CustomerExceptionHandler {
-		assertTrue(customer.validateAddress("13 ")); 
+	     assertThrows(CustomerExceptionHandler.class, () -> {
+	            customer.validateAddress("abc"); // IEC: 3
+	        });
+	        assertThrows(CustomerExceptionHandler.class, () -> {
+	            customer.validateAddress("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnop"); // IEC: > 65 characters
+	        }); 
 	}
 	@Test
 	public void testValidStatus() throws CustomerExceptionHandler	{
-		assertTrue(customer.validateStatus("Yes"));
-		assertTrue(customer.validateStatus("No"));
+		assertTrue(customer.validateStatus("Active"));
+//		assertTrue(customer.validateStatus("Paused"));
 	}
 	@Test
 	public void testInvalidStatus() throws CustomerExceptionHandler	{
-		assertTrue(customer.validateStatus("What???"));	
+		  assertThrows(CustomerExceptionHandler.class, () -> {
+	            customer.validateStatus("What???"); // IEC: > 10 characters
+	        }); 
 	}
 
 }

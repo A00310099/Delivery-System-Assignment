@@ -1,5 +1,7 @@
 package our_code;
 
+import our_code.CustomerExceptionHandler;
+
 public class Customer {
 
 	private String name;
@@ -72,24 +74,65 @@ public class Customer {
 	}
 	
 	public boolean validateAddress(String custAddr) throws CustomerExceptionHandler {
-		return false;
+		if(custAddr.length() < 4)
+		{
+			throw new CustomerExceptionHandler("Customer Name length must be more or equal to 4");
+		}
+		if(custAddr.length() > 64)
+		{
+			throw new CustomerExceptionHandler("Customer Name length must be less than or equal to 64");
+		}
+		return true;
+		
+		
+		
 		
 		
 	}
 	
-	public boolean validatePhoneNumber(String custPhone) throws CustomerExceptionHandler {
+	public boolean validatePhoneNumber(String custPhone) throws CustomerExceptionHandler{
+	if(custPhone.length() > 10)
+	{
+		throw new CustomerExceptionHandler("Phone number is too big");
+	}
+	if(custPhone.length() < 10)
+	{
+		throw new CustomerExceptionHandler("Phone number is too short");
+	}
 		
-		return false;
+		return true;
 		
 	}
 	
 	public boolean validateCustomerID(int custId) throws CustomerExceptionHandler {
 		
-		return false;
+		if(custId <= 0)
+		{
+			throw new CustomerExceptionHandler("Customer ID must be greater than 0");
+		}
+
+		return true;
 	}
 	
 
 	public boolean validateStatus(String custStatus) throws CustomerExceptionHandler {
-		return false;
+	if(custStatus == "Active")
+	{
+		throw new CustomerExceptionHandler("Customer is avaliable for delivery");
+	}
+	
+	if(custStatus == "Paused") {
+		throw new CustomerExceptionHandler("Customer is not avaliable for delivery");
+	}
+		
+	if(custStatus == "What???")
+	{
+		throw new CustomerExceptionHandler("Invalid Status");
+	}
+
+	else	{		
+	throw new CustomerExceptionHandler("Invalid Status");	
+	}
+				
 	}
 }
