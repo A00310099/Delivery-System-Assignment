@@ -116,19 +116,21 @@ public class Customer {
 	
 
 	public boolean validateStatus(String custStatus) throws CustomerExceptionHandler {
-	if(custStatus.equals ("Active"))
-	{
-		throw new CustomerExceptionHandler("Customer is avaliable for delivery");
-	}
-	
-	if(custStatus.equals("Paused")) {
-		throw new CustomerExceptionHandler("Customer is not avaliable for delivery");
-	}
-	
-	else
-	{		
-		throw new CustomerExceptionHandler("Invalid Status");	
-	}
+		if(custStatus.equals("Active"))
+		{
+			return true;
+//			throw new CustomerExceptionHandler("Customer is avaliable for delivery");
+		}
+		
+		if(custStatus.equals("Paused")) {
+			return true;
+//			throw new CustomerExceptionHandler("Customer is not avaliable for delivery");
+		}
+		
+		else
+		{		
+			throw new CustomerExceptionHandler("Invalid Status");	
+		}
 	}
 }
 	
