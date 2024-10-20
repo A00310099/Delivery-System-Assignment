@@ -67,7 +67,7 @@ public class CustomerTest {
 	@Test
 	public void testValidStatus() throws CustomerExceptionHandler	{
 		assertTrue(customer.validateStatus("Active"));
-//		assertTrue(customer.validateStatus("Paused"));
+		assertTrue(customer.validateStatus("Paused"));
 	}
 	@Test
 	public void testInvalidStatus() throws CustomerExceptionHandler	{
