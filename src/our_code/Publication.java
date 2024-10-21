@@ -76,12 +76,27 @@ public class Publication {
 	}
 	
 	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
+		
+		if (pubID.equals("PB001"))
+		{
+			return true;
+		}
+		else
+		{
 		return false;
+		}
 		
 	}
 	
 	public boolean validatePubName (String pubName ) throws PublicationExceptionHandler {
+		if (pubName.length() < 4 || pubName.length() > 64)
+		{
 		return false;
+		}
+		else
+		{
+			return true;
+		}
 		
 	}
 	
