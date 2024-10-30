@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-
 public class Database {
 
     private Connection connect = null;
@@ -20,74 +19,60 @@ public class Database {
 
     public Database() throws Exception {
         try {
-           
             Class.forName("com.mysql.cj.jdbc.Driver");
-
             connect = DriverManager.getConnection(host, user, password);
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
 
     public boolean insertCustomerDetailsAccount(Customer c) {
         boolean insertSucessfull = true;
-
         try {
             preparedStatement = connect.prepareStatement("INSERT INTO customers (customer_id, name, address, phone_number, status) VALUES (?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, c.getCustomerID()); 
+            preparedStatement.setString(1, c.getCustomerID());
             preparedStatement.setString(2, c.getName());
             preparedStatement.setString(3, c.getAddress());
             preparedStatement.setString(4, c.getPhoneNumber());
-            preparedStatement.setString(5, "active"); 
+            preparedStatement.setString(5, "active");
             preparedStatement.executeUpdate();
         } catch (Exception e) {
+            e.printStackTrace();
             insertSucessfull = false;
         }
-
         return insertSucessfull;
-    }// end insertCustomerDetailsAccount
+    }
 
-	public ResultSet retrieveAllCustomerAccounts() {
-		
-		//Add Code here to call embedded SQL to view Customer Details
-	
-		try {
-			statement = connect.createStatement();
-			resultSet = statement.executeQuery("Select * from newsagent2021.customer");
-		
-		}
-		catch (Exception e) {
-			resultSet = null;
-		}
-		return resultSet;
-	}
-	
-	public boolean deleteCustomerById(int custID) {
+    public ResultSet retrieveAllCustomerAccounts() {
+        try {
+            statement = connect.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM customers");
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultSet = null;
+        }
+        return resultSet;
+    }
 
-		boolean deleteSucessfull = true;
-		
-		//Add Code here to call embedded SQL to insert Customer into DB
-		
-		try {
-			
-			//Create prepared statement to issue SQL query to the database
-			if (custID == -99)
-				//Delete all entries in Table
-				preparedStatement = connect.prepareStatement("delete from newsagent2021.customer");
-			else
-				//Delete a particular Customer
-				preparedStatement = connect.prepareStatement("delete from newsagent2021.customer where id = " + custID);
-			preparedStatement.executeUpdate();
-		 
-		}
-		catch (Exception e) {
-			deleteSucessfull = false;
-		}
-		
-		return deleteSucessfull;
+    public boolean deleteCustomerById(int custID) {
+        boolean deleteSucessfull = true;
+        try {
+            if (custID == -99) {
+                preparedStatement = connect.prepareStatement("DELETE FROM customers");
+            } else {
+                preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
+                preparedStatement.setInt(1, custID);
+            }
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteSucessfull = false;
+        }
+        return deleteSucessfull;
+    }
+
+	public void close() {
 		
 	}
-
-
-}// end Class
-
+}
