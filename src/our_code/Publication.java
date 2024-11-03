@@ -101,17 +101,46 @@ public class Publication {
 	}
 	
 	public boolean validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
-		return false;
+		
+		if (pubFreq.equals("Daily") || pubFreq.equals("Weekly") || pubFreq.equals("Monthly") || pubFreq.equals("Once"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 		
 	}
 	
 	public boolean validatePubStock (int pubStock ) throws PublicationExceptionHandler {
-		return false;
+		if (pubStock > 0)
+		{
+			return true;
+		}
+		else if (pubStock == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		
 	}
 	
+	
+
 	public boolean validatePubCost (double pubCost) throws PublicationExceptionHandler {
+		if (pubCost >= 0.0)
+		{
+			return true;
+		}
+		else
+		{
 		return false;
+		}
 		
 	}
 
