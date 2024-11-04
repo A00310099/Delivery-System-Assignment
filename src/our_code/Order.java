@@ -49,29 +49,29 @@ public class Order {
 
 	
 	// Validate methods
-	public boolean validatePublicationID(String id) throws OrderException {
+	public boolean validatePublicationID(String id) throws OrderExceptionHandler {
 		// Publication ID cannot be 0 or a negative number
 		if (id == null || id.isEmpty()) {
-			throw new OrderException("Publication ID must be greater than 0");
+			throw new OrderExceptionHandler("Publication ID must be greater than 0");
 		}
 		return true;
 	}
 	
-	public boolean validateWeekDay(String day) throws OrderException {
+	public boolean validateWeekDay(String day) throws OrderExceptionHandler {
 		day = day.toLowerCase(); // Make the passed string case-insensitive
 		
 		if (day.equals("monday") || day.equals("tuesday") || day.equals("wednesday") || day.equals("thursday") ||
 				day.equals("friday") || day.equals("saturday") || day.equals("sunday")) {
 			return true;
 		} else {
-			throw new OrderException("Invalid day of the week entered");
+			throw new OrderExceptionHandler("Invalid day of the week entered");
 		}
 	}
 	
-	public boolean validateCustomerID(String id) throws OrderException {
+	public boolean validateCustomerID(String id) throws OrderExceptionHandler {
 		// Customer ID cannot be 0 or a negative number
 		if (id == null || id.isEmpty()) {
-			throw new OrderException("Customer ID must be greater than 0");
+			throw new OrderExceptionHandler("Customer ID must be greater than 0");
 		}
 		return true;
 	}
