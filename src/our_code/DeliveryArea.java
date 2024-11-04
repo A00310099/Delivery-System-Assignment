@@ -6,15 +6,21 @@ import java.util.List;
 public class DeliveryArea {
     
     private String areaID;           // Unique Area ID (e.g., AT000)
-    private String areaName;         // Delivery Area Name (3-20 characters)
-    private String addresses;  		 // List of valid addressess
+    private String deliveryPersonID;         // Delivery Area Name (3-20 characters)
+    private String areaNumber;  		 // List of valid addressess
+    private String customerID;
     private boolean isArchived;      // Archive status (for 6 years)
+    
+    public DeliveryArea() {
+        this.isArchived = false;
+    }
 
     // Constructor
-    public DeliveryArea(String areaID, String areaName, String addresses) {
+    public DeliveryArea(String areaID, String deliveryPersonID, String areaNumber, String customerID) {
         this.areaID = areaID;
-        this.areaName = areaName;
-        this.addresses = addresses;
+        this.deliveryPersonID = deliveryPersonID;
+        this.areaNumber = areaNumber;
+        this.customerID = customerID;
         this.isArchived = false; 
     }
 
@@ -22,22 +28,33 @@ public class DeliveryArea {
     public String getAreaID() {
         return areaID;
     }
-
-    public String getAreaName() {
-        return areaName;
+    
+    public void setAreaID(String areaID) {
+        this.areaID = areaID;
+    }
+    public String getDeliveryPersonID() {
+        return deliveryPersonID;
+    }
+    
+    public void setDeliveryPersonID(String deliveryPersonID) {
+        this.deliveryPersonID = areaID;
+    }
+    public String getAreaNumber() {
+        return areaNumber;
+    }
+    
+    public void setAreaNumber(String areaNumber) {
+        this.areaNumber = areaNumber;
+    }
+    public String getCustomerID() {
+        return customerID;
+    }
+    
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
     }
 
-    public void setAreaName(String areaName) {
-        this.areaName = areaName;
-    }
 
-    public String getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(String addresses) {
-        this.addresses = addresses;
-    }
 
     public boolean isArchived() {
         return isArchived;
@@ -46,6 +63,8 @@ public class DeliveryArea {
     public void setArchived(boolean isArchived) {
         this.isArchived = isArchived;
     }
+
+	
 
 
 }
