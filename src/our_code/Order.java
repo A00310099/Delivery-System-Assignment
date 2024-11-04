@@ -1,44 +1,57 @@
 package our_code;
 
 public class Order {
-	private int orderID;
-	private int publicationID;
+	private String orderID;
+	private String publicationID;
 	private String weekDay;
-	private int customerID;
+	private String customerID;
+	private String deliveryArea;
 	
 	public Order() {
 		// TODO constructor
 	}
 	
 	// Getters
-	public int getID() {
+	public String getOrderID() {
 		return this.orderID;
 	}
-	public int getPublicationID() {
+	public String getPublicationID() {
 		return this.publicationID;
 	}
 	public String getWeekDay() {
 		return this.weekDay;
 	}
-	public int getCustomerID() {
+	public String getCustomerID() {
 		return this.customerID;
+	}
+	public String getDeliveryArea() {
+		return this.deliveryArea;
 	}
 	
 	// Setters
-	public void setPublicationID(int id) {
+	public void setOrderID(String id) {
+		this.orderID = id;
+	}
+	public void setPublicationID(String id) {
 		this.publicationID = id;
 	}
 	public void setWeekDay(String day) {
 		this.weekDay = day;
 	}
-	public void setCustomerID(int id) {
+	public void setCustomerID(String id) {
 		this.customerID = id;
 	}
 	
+	public void setDeliveryArea(String id) {
+		this.deliveryArea = id;
+		
+	}
+
+	
 	// Validate methods
-	public boolean validatePublicationID(int id) throws OrderException {
+	public boolean validatePublicationID(String id) throws OrderException {
 		// Publication ID cannot be 0 or a negative number
-		if (id <= 0) {
+		if (id == null || id.isEmpty()) {
 			throw new OrderException("Publication ID must be greater than 0");
 		}
 		return true;
@@ -55,11 +68,13 @@ public class Order {
 		}
 	}
 	
-	public boolean validateCustomerID(int id) throws OrderException {
+	public boolean validateCustomerID(String id) throws OrderException {
 		// Customer ID cannot be 0 or a negative number
-		if (id <= 0) {
+		if (id == null || id.isEmpty()) {
 			throw new OrderException("Customer ID must be greater than 0");
 		}
 		return true;
 	}
+
+	
 }

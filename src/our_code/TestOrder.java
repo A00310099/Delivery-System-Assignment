@@ -50,28 +50,28 @@ class TestOrder {
 	// Tests for valid publication ID
 	@Test
 	void testValidPublicationID() throws OrderException {
-		assertTrue(order.validatePublicationID(1));
+		assertTrue(order.validatePublicationID("P1111"));
 	}
 	
 	// Tests for invalid publication ID
 	@Test
 	void testInvalidPublicationID() throws OrderException {
 		assertThrows(OrderException.class, () -> {
-			order.validatePublicationID(-1);
+			order.validatePublicationID("");
 		});
 	}
 	
 	// Tests for valid customer ID
 	@Test
 	void testValidCustomerID() throws OrderException {
-		assertTrue(order.validateCustomerID(2));
+		assertTrue(order.validateCustomerID("A6666"));
 	}
 	
 	// Tests for invalid customer ID
 	@Test
 	void testInvalidCustomerID() throws OrderException {
 		assertThrows(OrderException.class, () -> {
-			order.validateCustomerID(0);
+			order.validateCustomerID("");
 		});
 	}
 }
