@@ -76,27 +76,71 @@ public class Publication {
 	}
 	
 	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
+		
+		if (pubID.equals("PB001"))
+		{
+			return true;
+		}
+		else
+		{
 		return false;
+		}
 		
 	}
 	
 	public boolean validatePubName (String pubName ) throws PublicationExceptionHandler {
+		if (pubName.length() < 4 || pubName.length() > 64)
+		{
 		return false;
+		}
+		else
+		{
+			return true;
+		}
 		
 	}
 	
 	public boolean validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
-		return false;
+		
+		if (pubFreq.equals("Daily") || pubFreq.equals("Weekly") || pubFreq.equals("Monthly") || pubFreq.equals("Once"))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 		
 	}
 	
 	public boolean validatePubStock (int pubStock ) throws PublicationExceptionHandler {
-		return false;
+		if (pubStock > 0)
+		{
+			return true;
+		}
+		else if (pubStock == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		
 	}
 	
+	
+
 	public boolean validatePubCost (double pubCost) throws PublicationExceptionHandler {
+		if (pubCost >= 0.0)
+		{
+			return true;
+		}
+		else
+		{
 		return false;
+		}
 		
 	}
 
