@@ -15,7 +15,7 @@ public class Database {
 
     final private String host = "jdbc:mysql://localhost:3306/Newsagent";
     final private String user = "root";
-    final private String password = "DwayneJohnson12345$";
+    final private String password = "root";
 
     public Database() throws Exception {
         try {
@@ -35,7 +35,7 @@ public class Database {
             preparedStatement.setString(2, c.getName());
             preparedStatement.setString(3, c.getAddress());
             preparedStatement.setString(4, c.getPhoneNumber());
-            preparedStatement.setString(5, "active");
+            preparedStatement.setString(5, c.getStatus());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,10 +44,15 @@ public class Database {
         return insertSucessfull;
     }
 
-    public ResultSet retrieveAllCustomerAccounts() {
+    public ResultSet retrieveCustomerAccount(String id) {
         try {
             statement = connect.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM customers");
+            if (id.equals("all")) {
+            	resultSet = statement.executeQuery("SELECT * FROM customers");
+            } else {
+            	resultSet = statement.executeQuery("SELECT * FROM customers WHERE customer_id = " + id);
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
             resultSet = null;

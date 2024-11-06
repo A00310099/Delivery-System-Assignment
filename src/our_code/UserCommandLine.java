@@ -1,6 +1,8 @@
 package our_code;
 
 import java.util.Scanner;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserCommandLine {
 	
@@ -9,12 +11,13 @@ public class UserCommandLine {
 	final static String invalidOption = "Invalid function selected! Please enter the number displayed next to your chosen option.";
 	
 	// App functionality - Keeping these static as they're used across different methods
-	// TODO Connect database
+	static Database db = null; // Initialized in main
 	static Scanner in = new Scanner(System.in);
 	static String functionNumber = "-99";
 	
 	public static void main(String[] args) {
 		try {
+			db = new Database();
 			boolean appRunning = true;
 			
 			while (appRunning) {
@@ -80,7 +83,7 @@ public class UserCommandLine {
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getStackTrace());
+			System.out.println("Encountered an error:" + e.getMessage() + "\nThe application will now close.");
 		}
 	}
 
@@ -110,6 +113,7 @@ public class UserCommandLine {
 		System.out.println(separator + "\n");
 	}
 	
+	// ==================== CUSTOMER METHODS ====================
 	private static void manageCustomer() {
 		boolean managingEntity = true;
 		
@@ -122,19 +126,33 @@ public class UserCommandLine {
 			case "create":
 			case "c":
 			case "1":
-				System.out.println("Creating customer... [NOT YET IMPLEMENTED]"); //TODO Create Customer
+				try {
+					createCustomer();
+				} catch (CustomerExceptionHandler e) {
+					System.err.println("\nCould not create customer. Error: " + e.getMessage());
+				}
 				break;
 				
 			case "view all":
 			case "va":
 			case "2":
-				System.out.println("Viewing all Customer records... [NOT YET IMPLEMENTED]"); //TODO Read all Customers
+				try {
+					readCustomer(true);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 				
 			case "view":
 			case "v":
 			case "3":
-				System.out.println("Viewing specific Customer record... [NOT YET IMPLEMENTED]"); //TODO Read Customer by ID
+				try {
+					readCustomer(false);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			
 			case "update":
@@ -162,10 +180,76 @@ public class UserCommandLine {
 				System.out.println(invalidOption);
 				break;
 			}
-			
+		}
+	}
+	private static void createCustomer() throws CustomerExceptionHandler {
+		System.out.println("----- CREATING NEW CUSTOMER -----");
+		System.out.print("Enter customer ID: ");
+		String id = in.nextLine();
+		System.out.print("Enter customer name: ");
+		String name = in.nextLine();
+		System.out.print("Enter customer address: ");
+		String address = in.nextLine();
+		System.out.print("Enter customer phone number: ");
+		String phoneNumber = in.nextLine();
+		System.out.print("Enter customer status (Active/Paused): ");
+		String status = in.nextLine();
+		
+		Customer c = new Customer(id, name, address, phoneNumber, status);
+		
+		if (db.insertCustomerDetailsAccount(c)) {
+			System.out.println("\nNew customer saved to database.");
+		} else {
+			System.out.println("\nCustomer NOT saved to database.");
 		}
 	}
 	
+	private static void readCustomer(boolean viewAll) throws Exception {
+		// Determine whether to show all results or a specific result
+		ResultSet rs = null;
+		if (viewAll) {
+			rs = db.retrieveCustomerAccount("all");
+		} else {
+			System.out.println("Enter customer ID to view: ");
+			String id = in.nextLine();
+			rs = db.retrieveCustomerAccount(id);
+		}
+		
+		if (rs != null) {
+			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+			System.out.println("Table: " + rs.getMetaData().getTableName(1));
+			System.out.print("| ");
+			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+				System.out.printf("%-30s | ",rs.getMetaData().getColumnName(i).toUpperCase());
+			}
+			
+			System.out.println();
+			while (rs.next()) {
+				String id = rs.getString("customer_id");
+				String name = rs.getString("name");
+				String address = rs.getString("address");
+				String phoneNumber = rs.getString("phone_number");
+				String status = rs.getString("status");
+				System.out.printf("| %-30s | ", id);
+				System.out.printf("%-30s | ", name);
+				System.out.printf("%-30s | ", address);
+				System.out.printf("%-30s | ", phoneNumber);
+				System.out.printf("%-30s | ", status);
+				System.out.println();
+			}// end while
+			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+		} else {
+			System.out.println("No records found");
+		}
+	}
+	private static void updateCustomer() {
+		// TODO update customers method
+	}
+	private static void deleteCustomer() {
+		// TODO delete customers method
+	}
+	
+	// ==================== PUBLICATION METHODS ====================
 	private static void managePublication() {
 		boolean managingEntity = true;
 		
@@ -222,6 +306,7 @@ public class UserCommandLine {
 		}
 	}
 	
+	// ==================== ORDER METHODS ====================
 	private static void manageOrder() {
 		boolean managingEntity = true;
 		
@@ -278,6 +363,7 @@ public class UserCommandLine {
 		}
 	}
 	
+	// ==================== INVOICE METHODS ====================
 	private static void manageInvoice() {
 		boolean managingEntity = true;
 		
@@ -334,6 +420,7 @@ public class UserCommandLine {
 		}
 	}
 	
+	// ==================== DELIVERY DOCKET METHODS ====================
 	private static void manageDeliveryDocket() {
 		boolean managingEntity = true;
 		
@@ -390,6 +477,7 @@ public class UserCommandLine {
 		}
 	}
 	
+	// ==================== DELIVERY AREA METHODS ====================
 	private static void manageDeliveryArea() {
 		boolean managingEntity = true;
 		
@@ -446,6 +534,7 @@ public class UserCommandLine {
 		}
 	}
 	
+	// ==================== DELIVERY PERSON METHODS ====================
 	private static void manageDeliveryPerson() {
 		boolean managingEntity = true;
 		
