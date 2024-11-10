@@ -27,6 +27,7 @@ public class Database {
         }
     }
 
+    // ==================== CUSTOMER METHODS ====================
     public boolean insertCustomerDetailsAccount(Customer c) {
         boolean insertSucessfull = true;
         try {
@@ -46,13 +47,14 @@ public class Database {
 
     public ResultSet retrieveCustomerAccount(String id) {
         try {
-            statement = connect.createStatement();
             if (id.equals("all")) {
+            	statement = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // These parameters allow use of rs.first() and rs.beforeFirst() 
             	resultSet = statement.executeQuery("SELECT * FROM customers");
             } else {
-            	resultSet = statement.executeQuery("SELECT * FROM customers WHERE customer_id = " + id);
+            	preparedStatement = connect.prepareStatement("SELECT * FROM customers WHERE customer_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // Same as above
+            	preparedStatement.setString(1, id);
+            	resultSet = preparedStatement.executeQuery();
             }
-            
         } catch (Exception e) {
             e.printStackTrace();
             resultSet = null;
@@ -60,15 +62,11 @@ public class Database {
         return resultSet;
     }
 
-    public boolean deleteCustomerById(int custID) {
+    public boolean deleteCustomerById(String id) {
         boolean deleteSucessfull = true;
         try {
-            if (custID == -99) {
-                preparedStatement = connect.prepareStatement("DELETE FROM customers");
-            } else {
-                preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
-                preparedStatement.setInt(1, custID);
-            }
+            preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
+            preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,6 +75,21 @@ public class Database {
         return deleteSucessfull;
     }
 
+    // ==================== PUBLICATION METHODS ====================
+    
+    // ==================== ORDER METHODS ====================
+    
+    // ==================== INVOICE METHODS ====================
+    
+    // ==================== DELIVERY DOCKET METHODS ====================
+    
+    // ==================== DELIVERY AREA METHODS ====================
+    
+    // ==================== DELIVERY PERSON METHODS ====================
+    
+    
+    
+    // ?
 	public void close() {
 		
 	}

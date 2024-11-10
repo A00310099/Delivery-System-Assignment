@@ -124,6 +124,10 @@ public class Customer {
 	
 	public boolean validateCustomerID(String custId) throws CustomerExceptionHandler {
 		
+		if(custId.equals("all")) {
+			throw new CustomerExceptionHandler("ID \"all\" is not valid as it is reserved");
+		}
+		
 		if(custId == null || custId.isEmpty())
 		{
 			throw new CustomerExceptionHandler("Customer ID must be greater than 0");

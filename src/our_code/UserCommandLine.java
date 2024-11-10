@@ -15,6 +15,11 @@ public class UserCommandLine {
 	static Scanner in = new Scanner(System.in);
 	static String functionNumber = "-99";
 	
+	static void waitForUserInput() {
+		System.out.println("Press enter to return.");
+		in.nextLine();
+	}
+	
 	public static void main(String[] args) {
 		try {
 			db = new Database();
@@ -130,6 +135,8 @@ public class UserCommandLine {
 					createCustomer();
 				} catch (CustomerExceptionHandler e) {
 					System.err.println("\nCould not create customer. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
 				}
 				break;
 				
@@ -139,8 +146,9 @@ public class UserCommandLine {
 				try {
 					readCustomer(true);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.err.println("\nCould not view customer records. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
 				}
 				break;
 				
@@ -150,8 +158,9 @@ public class UserCommandLine {
 				try {
 					readCustomer(false);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.err.println("\nCould not view customer record. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
 				}
 				break;
 			
@@ -203,21 +212,22 @@ public class UserCommandLine {
 			System.out.println("\nCustomer NOT saved to database.");
 		}
 	}
-	
 	private static void readCustomer(boolean viewAll) throws Exception {
-		// Determine whether to show all results or a specific result
 		ResultSet rs = null;
+		// Determine whether to show all results or a specific result
 		if (viewAll) {
 			rs = db.retrieveCustomerAccount("all");
 		} else {
-			System.out.println("Enter customer ID to view: ");
+			System.out.print("Enter customer ID to view or \"all\" to view all customers: ");
 			String id = in.nextLine();
 			rs = db.retrieveCustomerAccount(id);
 		}
 		
-		if (rs != null) {
+		// Print the table
+		if (rs != null && rs.next()) {
+			rs.beforeFirst(); // Since we're using rs.next() to check if the result set is empty or not, we need to reset its position here
+			System.out.println("TABLE: " + rs.getMetaData().getTableName(1).toUpperCase());
 			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
-			System.out.println("Table: " + rs.getMetaData().getTableName(1));
 			System.out.print("| ");
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
 				System.out.printf("%-30s | ",rs.getMetaData().getColumnName(i).toUpperCase());
@@ -239,7 +249,7 @@ public class UserCommandLine {
 			}// end while
 			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
 		} else {
-			System.out.println("No records found");
+			System.out.println("Record(s) not found");
 		}
 	}
 	private static void updateCustomer() {
