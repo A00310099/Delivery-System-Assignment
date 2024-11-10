@@ -144,7 +144,7 @@ public class UserCommandLine {
 			case "va":
 			case "2":
 				try {
-					readCustomer(true);
+					readCustomer("all");
 				} catch (Exception e) {
 					System.err.println("\nCould not view customer records. Error: " + e.getMessage());
 				} finally {
@@ -156,7 +156,7 @@ public class UserCommandLine {
 			case "v":
 			case "3":
 				try {
-					readCustomer(false);
+					readCustomer();
 				} catch (Exception e) {
 					System.err.println("\nCould not view customer record. Error: " + e.getMessage());
 				} finally {
@@ -167,13 +167,25 @@ public class UserCommandLine {
 			case "update":
 			case "u":
 			case "4":
-				System.out.println("Updating Customer record... [NOT YET IMPLEMENTED]"); //TODO Update Customer
+				try {
+					updateCustomer();
+				} catch (Exception e) {
+					System.err.println("\nCould not update customer record. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "delete":
 			case "d":
 			case "5":
-				System.out.println("Deleting Customer record... [NOT YET IMPLEMENTED]"); //TODO Delete Customer
+				try {
+					deleteCustomer();
+				} catch (Exception e) {
+					System.err.println("\nCould not delete customer record. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "back":
@@ -207,21 +219,19 @@ public class UserCommandLine {
 		Customer c = new Customer(id, name, address, phoneNumber, status);
 		
 		if (db.insertCustomerDetailsAccount(c)) {
-			System.out.println("\nNew customer saved to database.");
+			System.out.print("\nNew customer saved to database. ");
 		} else {
-			System.out.println("\nCustomer NOT saved to database.");
+			System.out.print("\nCustomer NOT saved to database. ");
 		}
 	}
-	private static void readCustomer(boolean viewAll) throws Exception {
-		ResultSet rs = null;
-		// Determine whether to show all results or a specific result
-		if (viewAll) {
-			rs = db.retrieveCustomerAccount("all");
-		} else {
-			System.out.print("Enter customer ID to view or \"all\" to view all customers: ");
-			String id = in.nextLine();
-			rs = db.retrieveCustomerAccount(id);
-		}
+	/** This version of the method asks the user for input then passes that input to the readCustomer(String custId) method */
+	private static void readCustomer() throws SQLException {
+		System.out.print("Enter customer ID to view or \"all\" to view all customers: ");
+		String id = in.nextLine();
+		readCustomer(id);
+	}
+	private static boolean readCustomer(String custId) throws SQLException {
+		ResultSet rs = db.retrieveCustomerAccount(custId);
 		
 		// Print the table
 		if (rs != null && rs.next()) {
@@ -248,15 +258,32 @@ public class UserCommandLine {
 				System.out.println();
 			}// end while
 			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+			return true; // Customer successfully displayed
 		} else {
-			System.out.println("Record(s) not found");
+			System.out.print("Record(s) not found. ");
+			return false; // No customer(s) to display
 		}
 	}
 	private static void updateCustomer() {
 		// TODO update customers method
 	}
-	private static void deleteCustomer() {
-		// TODO delete customers method
+	private static void deleteCustomer() throws Exception {
+		System.out.print("Enter the ID of the customer you would like to delete: ");
+		String id = in.nextLine();
+		
+		if (id.equals("all")) {
+			throw new Exception("Cannot delete all customers!");
+		}
+		else if (readCustomer(id)) {
+			System.out.println("Warning: You are about to permanently delete the above record! This can not be undone.");
+			System.out.print("Type CONFIRM if you are sure you want to do this. ");
+			if (in.nextLine().toLowerCase().equals("confirm")) {
+				db.deleteCustomerById(id);
+				System.out.print("Customer " + id + " deleted. ");
+			} else {
+				System.out.print("Customer " + id + " not deleted. ");
+			}
+		}
 	}
 	
 	// ==================== PUBLICATION METHODS ====================
