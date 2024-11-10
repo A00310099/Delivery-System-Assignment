@@ -315,6 +315,7 @@ public class UserCommandLine {
 			System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
 			
 			ResultSet rs = db.retrieveCustomerAccount(id); // Retrieve the result set so values can be kept the same by leaving them blank
+			rs.first(); // Set cursor to first (only) entry
 			
 			System.out.print("Enter new customer name: ");
 			String name = in.nextLine();
