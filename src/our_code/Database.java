@@ -15,7 +15,7 @@ public class Database {
 
     final private String host = "jdbc:mysql://localhost:3306/Newsagent";
     final private String user = "root";
-    final private String password = "DwayneJohnson12345$";
+    final private String password = "root";
 
     public Database() throws Exception {
         try {
@@ -27,51 +27,85 @@ public class Database {
         }
     }
 
+    // ==================== CUSTOMER METHODS ====================
     public boolean insertCustomerDetailsAccount(Customer c) {
-        boolean insertSucessfull = true;
+        boolean insertSucessful = true;
         try {
             preparedStatement = connect.prepareStatement("INSERT INTO customers (customer_id, name, address, phone_number, status) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, c.getCustomerID());
             preparedStatement.setString(2, c.getName());
             preparedStatement.setString(3, c.getAddress());
             preparedStatement.setString(4, c.getPhoneNumber());
-            preparedStatement.setString(5, "active");
+            preparedStatement.setString(5, c.getStatus());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            insertSucessfull = false;
+            insertSucessful = false;
         }
-        return insertSucessfull;
+        return insertSucessful;
     }
-
-    public ResultSet retrieveAllCustomerAccounts() {
+    public ResultSet retrieveCustomerAccount(String id) {
         try {
-            statement = connect.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM customers");
+            if (id.equals("all")) {
+            	statement = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // These parameters allow use of rs.first() and rs.beforeFirst() 
+            	resultSet = statement.executeQuery("SELECT * FROM customers");
+            } else {
+            	preparedStatement = connect.prepareStatement("SELECT * FROM customers WHERE customer_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // Same as above
+            	preparedStatement.setString(1, id);
+            	resultSet = preparedStatement.executeQuery();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             resultSet = null;
         }
         return resultSet;
     }
-
-    public boolean deleteCustomerById(int custID) {
-        boolean deleteSucessfull = true;
+    public boolean updateCustomerRecord(Customer c) {
+    	boolean updateSuccessful = true;
+    	try {
+    		preparedStatement = connect.prepareStatement("UPDATE customers SET name = ?, address = ?, phone_number = ?, status = ? WHERE customer_id = ?");
+            preparedStatement.setString(1, c.getName());
+            preparedStatement.setString(2, c.getAddress());
+            preparedStatement.setString(3, c.getPhoneNumber());
+            preparedStatement.setString(4, c.getStatus());
+    		preparedStatement.setString(5, c.getCustomerID());
+    		preparedStatement.executeUpdate();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		updateSuccessful = false;
+    	}
+    	
+    	return updateSuccessful;
+    }
+    
+    public boolean deleteCustomerById(String id) {
+        boolean deleteSucessful = true;
         try {
-            if (custID == -99) {
-                preparedStatement = connect.prepareStatement("DELETE FROM customers");
-            } else {
-                preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
-                preparedStatement.setInt(1, custID);
-            }
+            preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
+            preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            deleteSucessfull = false;
+            deleteSucessful = false;
         }
-        return deleteSucessfull;
+        return deleteSucessful;
     }
 
+    // ==================== PUBLICATION METHODS ====================
+    
+    // ==================== ORDER METHODS ====================
+    
+    // ==================== INVOICE METHODS ====================
+    
+    // ==================== DELIVERY DOCKET METHODS ====================
+    
+    // ==================== DELIVERY AREA METHODS ====================
+    
+    // ==================== DELIVERY PERSON METHODS ====================
+    
+    
+    
+    // ?
 	public void close() {
 		
 	}

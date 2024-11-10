@@ -27,13 +27,13 @@ public class CustomerTest {
 
 	@Test
 	public void testValidCustomerID() throws CustomerExceptionHandler {
-		assertTrue(customer.validateCustomerID(1)); 
+		assertTrue(customer.validateCustomerID("1")); 
 	}	
 	
 	@Test
 	void testInvalidCustomerID() throws CustomerExceptionHandler {
 		assertThrows(CustomerExceptionHandler .class, () -> {
-			customer.validateCustomerID(0);
+			customer.validateCustomerID("");
 		});
 	}
 	

@@ -10,10 +10,28 @@ public class Customer {
 	private String address;
 	private String status;
 	
-	public Customer()
-	{
+	public Customer() {
 		
 	}
+	public Customer(String customerID, String name, String address, String phoneNumber, String status) throws CustomerExceptionHandler
+	{
+		try {
+			this.validateCustomerID(customerID);
+			this.validateName(name);
+			this.validateAddress(address);
+			this.validatePhoneNumber(phoneNumber);
+			this.validateStatus(status);
+		} catch (CustomerExceptionHandler e) {
+			throw e;
+		}
+		
+		this.customerID = customerID;
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.status = status;
+	}
+	
 	void setCustomerId(String custId) {
 		this.customerID = custId;
 	}
@@ -49,7 +67,7 @@ public class Customer {
 	}
 	
 	public void setStatus(String custStatus)	{
-		this.status = status;
+		this.status = custStatus;
 	}
 	
 	public String getStatus()	{
@@ -76,11 +94,11 @@ public class Customer {
 	public boolean validateAddress(String custAddr) throws CustomerExceptionHandler {
 		if(custAddr.length() < 4)
 		{
-			throw new CustomerExceptionHandler("Customer Name length must be more or equal to 4");
+			throw new CustomerExceptionHandler("Customer Address length must be more or equal to 4");
 		}
 		if(custAddr.length() > 64)
 		{
-			throw new CustomerExceptionHandler("Customer Name length must be less than or equal to 64");
+			throw new CustomerExceptionHandler("Customer Address length must be less than or equal to 64");
 		}
 		return true;
 		
@@ -104,9 +122,13 @@ public class Customer {
 		
 	}
 	
-	public boolean validateCustomerID(int custId) throws CustomerExceptionHandler {
+	public boolean validateCustomerID(String custId) throws CustomerExceptionHandler {
 		
-		if(custId <= 0)
+		if(custId.equals("all")) {
+			throw new CustomerExceptionHandler("ID \"all\" is not valid as it is reserved");
+		}
+		
+		if(custId == null || custId.isEmpty())
 		{
 			throw new CustomerExceptionHandler("Customer ID must be greater than 0");
 		}
@@ -116,15 +138,14 @@ public class Customer {
 	
 
 	public boolean validateStatus(String custStatus) throws CustomerExceptionHandler {
-		if(custStatus.equals("Active"))
+		custStatus = custStatus.toLowerCase();
+		if(custStatus.equals("active"))
 		{
 			return true;
-//			throw new CustomerExceptionHandler("Customer is avaliable for delivery");
 		}
 		
-		if(custStatus.equals("Paused")) {
+		if(custStatus.equals("paused")) {
 			return true;
-//			throw new CustomerExceptionHandler("Customer is not avaliable for delivery");
 		}
 		
 		else
