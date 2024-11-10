@@ -118,6 +118,43 @@ public class UserCommandLine {
 		System.out.println(separator + "\n");
 	}
 	
+	// Extra methods for making the read methods look nicer and more like the SQL Command Line
+	private static int[] calculateColumnWidths(ResultSet rs) throws SQLException {
+		int[] columnWidths = new int[rs.getMetaData().getColumnCount()]; // Set the size of the array to the number of columns
+		
+		// Column index starts at 1, so we will need to offset the array by -1 to get the corresponding array index
+		for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) { // Iterate through each column
+			columnWidths[i - 1] = rs.getMetaData().getColumnName(i).length(); // Set initial widths to column name lengths
+		}
+		
+		while (rs.next()) {	// Iterate through each result in the result set
+			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+				int currentWidth = rs.getString(i).length();
+				if (columnWidths[i - 1] < currentWidth) {
+					columnWidths[i - 1] = currentWidth; // Set to new width if it's shorter
+				}
+			}
+		}
+		
+		rs.beforeFirst(); // Reset the cursor on the result set for the read method
+		
+		return columnWidths;
+	}
+	private static String generateHorizontalBorder(int[] widths) {
+		String border = "+-"; // Start of border
+		for (int i = 0; i < widths.length; i++) { // Get the index of the int
+			for (int j = 0; j < widths[i]; j++) { // Get the int stored at the above index
+				border += "-";
+			}
+			if (i == widths.length - 1) { // Last index
+				border += "-+";
+			} else { // Everything in-between
+				border += "-+-";
+			}
+		}
+		return border;
+	}
+	
 	// ==================== CUSTOMER METHODS ====================
 	private static void manageCustomer() {
 		boolean managingEntity = true;
@@ -224,7 +261,7 @@ public class UserCommandLine {
 			System.out.print("\nCustomer NOT saved to database. ");
 		}
 	}
-	/** This version of the method asks the user for input then passes that input to the readCustomer(String custId) method */
+	/** This version of the method asks the user for input then passes that input to the readCustomer(String) method */
 	private static void readCustomer() throws SQLException {
 		System.out.print("Enter customer ID to view or \"all\" to view all customers: ");
 		String id = in.nextLine();
@@ -233,31 +270,34 @@ public class UserCommandLine {
 	private static boolean readCustomer(String custId) throws SQLException {
 		ResultSet rs = db.retrieveCustomerAccount(custId);
 		
+		int[] columnWidth = calculateColumnWidths(rs);
+		String horizontalBorder = generateHorizontalBorder(columnWidth);
+		
 		// Print the table
 		if (rs != null && rs.next()) {
 			rs.beforeFirst(); // Since we're using rs.next() to check if the result set is empty or not, we need to reset its position here
 			System.out.println("TABLE: " + rs.getMetaData().getTableName(1).toUpperCase());
-			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+			System.out.println(horizontalBorder);
 			System.out.print("| ");
 			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
-				System.out.printf("%-30s | ",rs.getMetaData().getColumnName(i).toUpperCase());
+				System.out.printf("%-" + columnWidth[i - 1] + "s | ",rs.getMetaData().getColumnName(i).toUpperCase());
 			}
-			
-			System.out.println();
+			System.out.println("\n" + horizontalBorder);
+
 			while (rs.next()) {
 				String id = rs.getString("customer_id");
 				String name = rs.getString("name");
 				String address = rs.getString("address");
 				String phoneNumber = rs.getString("phone_number");
 				String status = rs.getString("status");
-				System.out.printf("| %-30s | ", id);
-				System.out.printf("%-30s | ", name);
-				System.out.printf("%-30s | ", address);
-				System.out.printf("%-30s | ", phoneNumber);
-				System.out.printf("%-30s | ", status);
+				System.out.printf("| %-" + columnWidth[0] + "s ", id);
+				System.out.printf("| %-" + columnWidth[1] + "s ", name);
+				System.out.printf("| %-" + columnWidth[2] + "s ", address);
+				System.out.printf("| %-" + columnWidth[3] + "s ", phoneNumber);
+				System.out.printf("| %-" + columnWidth[4] + "s | ", status);
 				System.out.println();
 			}// end while
-			System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+			System.out.println(horizontalBorder);
 			return true; // Customer successfully displayed
 		} else {
 			System.out.print("Record(s) not found. ");
