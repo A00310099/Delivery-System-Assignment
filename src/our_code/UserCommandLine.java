@@ -264,15 +264,55 @@ public class UserCommandLine {
 			return false; // No customer(s) to display
 		}
 	}
-	private static void updateCustomer() {
-		// TODO update customers method
+	private static void updateCustomer() throws Exception { // TODO
+		System.out.print("Enter the ID of the customer you would like to update: ");
+		String id = in.nextLine();
+		
+		if (id.equals("all")) {
+			throw new Exception("Cannot update all customers at once!");
+		}
+		else if (readCustomer(id)) {
+			System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
+			
+			ResultSet rs = db.retrieveCustomerAccount(id); // Retrieve the result set so values can be kept the same by leaving them blank
+			
+			System.out.print("Enter new customer name: ");
+			String name = in.nextLine();
+			if (name.isEmpty()) {
+				name = rs.getString("name");
+			}
+			System.out.print("Enter new customer address: ");
+			String address = in.nextLine();
+			if (address.isEmpty()) {
+				address = rs.getString("address");
+			}
+			System.out.print("Enter new customer phone number: ");
+			String phoneNumber = in.nextLine();
+			if (phoneNumber.isEmpty()) {
+				phoneNumber = rs.getString("phone_number");
+			}
+			System.out.print("Enter new customer status (Active/Paused): ");
+			String status = in.nextLine();
+			if (status.isEmpty()) {
+				status = rs.getString("status");
+			}
+			
+			Customer c = new Customer(id, name, address, phoneNumber, status);
+			
+			if (db.updateCustomerRecord(c)) {
+				System.out.println("\nCustomer record updated. Customer is now:");
+				readCustomer(id);
+			} else {
+				System.out.print("\nCustomer NOT updated. ");
+			}
+		}
 	}
 	private static void deleteCustomer() throws Exception {
 		System.out.print("Enter the ID of the customer you would like to delete: ");
 		String id = in.nextLine();
 		
 		if (id.equals("all")) {
-			throw new Exception("Cannot delete all customers!");
+			throw new Exception("Cannot delete all customers at once!");
 		}
 		else if (readCustomer(id)) {
 			System.out.println("Warning: You are about to permanently delete the above record! This can not be undone.");

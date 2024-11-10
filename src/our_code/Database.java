@@ -29,7 +29,7 @@ public class Database {
 
     // ==================== CUSTOMER METHODS ====================
     public boolean insertCustomerDetailsAccount(Customer c) {
-        boolean insertSucessfull = true;
+        boolean insertSucessful = true;
         try {
             preparedStatement = connect.prepareStatement("INSERT INTO customers (customer_id, name, address, phone_number, status) VALUES (?, ?, ?, ?, ?)");
             preparedStatement.setString(1, c.getCustomerID());
@@ -40,11 +40,10 @@ public class Database {
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            insertSucessfull = false;
+            insertSucessful = false;
         }
-        return insertSucessfull;
+        return insertSucessful;
     }
-
     public ResultSet retrieveCustomerAccount(String id) {
         try {
             if (id.equals("all")) {
@@ -61,18 +60,35 @@ public class Database {
         }
         return resultSet;
     }
-
+    public boolean updateCustomerRecord(Customer c) {
+    	boolean updateSuccessful = true;
+    	try {
+    		preparedStatement = connect.prepareStatement("UPDATE customers SET name = ?, address = ?, phone_number = ?, status = ? WHERE customer_id = ?");
+            preparedStatement.setString(1, c.getName());
+            preparedStatement.setString(2, c.getAddress());
+            preparedStatement.setString(3, c.getPhoneNumber());
+            preparedStatement.setString(4, c.getStatus());
+    		preparedStatement.setString(5, c.getCustomerID());
+    		preparedStatement.executeUpdate();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		updateSuccessful = false;
+    	}
+    	
+    	return updateSuccessful;
+    }
+    
     public boolean deleteCustomerById(String id) {
-        boolean deleteSucessfull = true;
+        boolean deleteSucessful = true;
         try {
             preparedStatement = connect.prepareStatement("DELETE FROM customers WHERE customer_id = ?");
             preparedStatement.setString(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            deleteSucessfull = false;
+            deleteSucessful = false;
         }
-        return deleteSucessfull;
+        return deleteSucessful;
     }
 
     // ==================== PUBLICATION METHODS ====================
