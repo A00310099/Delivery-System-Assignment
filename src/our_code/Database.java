@@ -98,12 +98,13 @@ public class Database {
     public boolean insertPublication(Publication p) {
         boolean insertSucessful = true;
         try {
-            preparedStatement = connect.prepareStatement("INSERT INTO customers (publication_id, name, type, frequency, stock, cost) VALUES (?, ?, ?, ?, ?, ?)");
+            preparedStatement = connect.prepareStatement("INSERT INTO publications (publication_id, name, type, frequency, stock, cost) VALUES (?, ?, ?, ?, ?, ?)");
             preparedStatement.setString(1, p.getPublicationID());
             preparedStatement.setString(2, p.getPublicationName());
-            preparedStatement.setString(3, p.getPublicationFreq());
-            preparedStatement.setInt(4, p.getPublicationStock());
-            preparedStatement.setDouble(5, p.getPublicationCost());
+            preparedStatement.setString(3, p.getPublicationType());
+            preparedStatement.setString(4, p.getPublicationFreq());
+            preparedStatement.setInt(5, p.getPublicationStock());
+            preparedStatement.setDouble(6, p.getPublicationCost());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,12 +133,13 @@ public class Database {
     public boolean updatePublication(Publication p) {
     	boolean updateSuccessful = true;
     	try {
-    		preparedStatement = connect.prepareStatement("UPDATE customers SET name = ?, address = ?, phone_number = ?, status = ? WHERE customer_id = ?");
+    		preparedStatement = connect.prepareStatement("UPDATE publications SET name = ?, type = ?, frequency = ?, stock = ?, cost = ? WHERE publication_id = ?");
             preparedStatement.setString(1, p.getPublicationName());
-            preparedStatement.setString(2, c.getAddress());
-            preparedStatement.setString(3, c.getPhoneNumber());
-            preparedStatement.setString(4, c.getStatus());
-    		preparedStatement.setString(5, c.getCustomerID());
+            preparedStatement.setString(2, p.getPublicationType());
+            preparedStatement.setString(3, p.getPublicationFreq());
+            preparedStatement.setInt(4, p.getPublicationStock());
+            preparedStatement.setDouble(5, p.getPublicationCost());
+    		preparedStatement.setString(6, p.getPublicationID());
     		preparedStatement.executeUpdate();
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -145,6 +147,21 @@ public class Database {
     	}
     	
     	return updateSuccessful;
+    	
+    }
+    
+    public boolean deletePublicationById(String id) {
+        boolean deleteSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("DELETE FROM publications WHERE publication_id = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteSucessful = false;
+        }
+        return deleteSucessful;
+    }
     
     
     // ==================== ORDER METHODS ====================

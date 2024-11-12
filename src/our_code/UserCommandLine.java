@@ -267,6 +267,7 @@ public class UserCommandLine {
 		String id = in.nextLine();
 		readCustomer(id);
 	}
+	
 	private static boolean readCustomer(String custId) throws SQLException {
 		ResultSet rs = db.retrieveCustomerAccount(custId);
 		
@@ -304,6 +305,7 @@ public class UserCommandLine {
 			return false; // No customer(s) to display
 		}
 	}
+	
 	private static void updateCustomer() throws Exception { // TODO
 		System.out.print("Enter the ID of the customer you would like to update: ");
 		String id = in.nextLine();
@@ -348,6 +350,7 @@ public class UserCommandLine {
 			}
 		}
 	}
+	
 	private static void deleteCustomer() throws Exception {
 		System.out.print("Enter the ID of the customer you would like to delete: ");
 		String id = in.nextLine();
@@ -380,31 +383,71 @@ public class UserCommandLine {
 			case "create":
 			case "c":
 			case "1":
-				System.out.println("Creating Publication... [NOT YET IMPLEMENTED]"); //TODO Create Publication
+				try {
+					createPublication();
+				}
+				catch(Exception e) {
+					System.err.println("\nCould not create Publication. Error: " + e.getMessage());
+				}
+				finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "view all":
 			case "va":
 			case "2":
-				System.out.println("Viewing all Publication records... [NOT YET IMPLEMENTED]"); //TODO Read all Publications
+				try {
+					readPublication();
+				}
+				catch(Exception e) {
+					System.err.println("\nCould not view all Publications. Error: " + e.getMessage());
+				}
+				finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "view":
 			case "v":
 			case "3":
-				System.out.println("Viewing specific Publication record... [NOT YET IMPLEMENTED]"); //TODO Read Publication by ID
+				try {
+					readPublication();
+				}
+				catch(Exception e) {
+					System.err.println("\nCould not read Publication. Error: " + e.getMessage());
+				}
+				finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "update":
 			case "u":
 			case "4":
-				System.out.println("Updating Publication record... [NOT YET IMPLEMENTED]"); //TODO Update Publication
+				try {
+					updatePublication();
+				}
+				catch(Exception e) {
+					System.err.println("\nCould not update Publication. Error: " + e.getMessage());
+				}
+				finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "delete":
 			case "d":
 			case "5":
-				System.out.println("Deleting Publication record... [NOT YET IMPLEMENTED]"); //TODO Delete Publication
+				try {
+					deletePublication();
+				}
+				catch(Exception e) {
+					System.err.println("\nCould not delete Publication. Error: " + e.getMessage());
+				}
+				finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "back":
@@ -423,6 +466,149 @@ public class UserCommandLine {
 			
 		}
 	}
+	
+	private static void createPublication() throws PublicationExceptionHandler {
+		System.out.println("----- CREATING NEW Publication -----");
+		System.out.print("Enter Publication ID: ");
+		String id = in.nextLine();
+		System.out.print("Enter Publication name: ");
+		String name = in.nextLine();
+		System.out.print("Enter Publication Type: ");
+		String type = in.nextLine();
+		System.out.print("Enter Publication Frequency: ");
+		String frequency = in.nextLine();
+		System.out.print("Enter Publication Stock: ");
+		int stock = in.nextInt();
+		System.out.print("Enter Publication Cost: ");
+		double cost = in.nextDouble();
+		
+		Publication p = new Publication(id, name, type, frequency, stock, cost);
+		
+		if (db.insertPublication(p)) {
+			System.out.print("\nNew customer saved to database. ");
+		} else {
+			System.out.print("\nCustomer NOT saved to database. ");
+		}
+	}
+	
+	private static void readPublication() throws SQLException {
+		System.out.print("Enter publication ID to view or \"all\" to view all publications: ");
+		String id = in.nextLine();
+		readPublication(id);
+	}
+	
+	private static boolean readPublication(String pubId) throws SQLException {
+		ResultSet rs = db.retrievePublication(pubId);
+		
+		int[] columnWidth = calculateColumnWidths(rs);
+		String horizontalBorder = generateHorizontalBorder(columnWidth);
+		
+		// Print the table
+		if (rs != null && rs.next()) {
+			rs.beforeFirst(); // Since we're using rs.next() to check if the result set is empty or not, we need to reset its position here
+			System.out.println("TABLE: " + rs.getMetaData().getTableName(1).toUpperCase());
+			System.out.println(horizontalBorder);
+			System.out.print("| ");
+			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+				System.out.printf("%-" + columnWidth[i - 1] + "s | ",rs.getMetaData().getColumnName(i).toUpperCase());
+			}
+			System.out.println("\n" + horizontalBorder);
+
+			while (rs.next()) {
+				String id = rs.getString("publication_id");
+				String name = rs.getString("name");
+				String type = rs.getString("type");
+				String frequency = rs.getString("frequency");
+				String stock = rs.getString("stock");
+				String cost = rs.getString("cost");
+				System.out.printf("| %-" + columnWidth[0] + "s ", id);
+				System.out.printf("| %-" + columnWidth[1] + "s ", name);
+				System.out.printf("| %-" + columnWidth[2] + "s ", type);
+				System.out.printf("| %-" + columnWidth[3] + "s ", frequency);
+				System.out.printf("| %-" + columnWidth[4] + "s ", stock);
+				System.out.printf("| %-" + columnWidth[5] + "s | ", cost);
+				System.out.println();
+			}// end while
+			System.out.println(horizontalBorder);
+			return true; // publication successfully displayed
+		} else {
+			System.out.print("Record(s) not found. ");
+			return false; // No publications(s) to display
+		}
+	}
+	
+	private static void updatePublication() throws Exception { // TODO
+		System.out.print("Enter the ID of the publication you would like to update: ");
+		String id = in.nextLine();
+		
+		if (id.equals("all")) {
+			throw new Exception("Cannot update all publications at once!");
+		}
+		else if (readPublication(id)) {
+			System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
+			
+			ResultSet rs = db.retrievePublication(id); // Retrieve the result set so values can be kept the same by leaving them blank
+			rs.first(); // Set cursor to first (only) entry
+			
+			System.out.print("Enter new publication name: ");
+			String name = in.nextLine();
+			if (name.isEmpty()) {
+				name = rs.getString("name");
+			}
+			System.out.print("Enter new publication type: ");
+			String type = in.nextLine();
+			if (type.isEmpty()) {
+				type = rs.getString("type");
+			}
+			System.out.print("Enter new publication frequency: ");
+			String frequency = in.nextLine();
+			if (frequency.isEmpty()) {
+				frequency = rs.getString("frequency");
+			}
+			System.out.print("Enter new publication Stock: ");
+			int stock = in.nextInt();
+			if (stock < 0) {
+				stock = rs.getInt("stock");
+			}
+			System.out.print("Enter new publication cost: ");
+			double cost = in.nextDouble();
+			if (cost < 0.0) {
+				cost = rs.getDouble("cost");
+			}
+			
+			Publication p = new Publication(id, name, type, frequency, stock, cost);
+			
+			if (db.updatePublication(p)) {
+				System.out.println("\nPublication record updated. Publication is now:");
+				readCustomer(id);
+			} else {
+				System.out.print("\nPublication NOT updated. ");
+			}
+		}
+	}
+	
+	private static void deletePublication() throws Exception {
+		System.out.print("Enter the ID of the publication you would like to delete: ");
+		String id = in.nextLine();
+		
+		if (id.equals("all")) {
+			throw new Exception("Cannot delete all publications at once!");
+		}
+		else if (readCustomer(id)) {
+			System.out.println("Warning: You are about to permanently delete the above record! This can not be undone.");
+			System.out.print("Type CONFIRM if you are sure you want to do this. ");
+			if (in.nextLine().toLowerCase().equals("confirm")) {
+				db.deletePublicationById(id);
+				System.out.print("Publication " + id + " deleted. ");
+			} else {
+				System.out.print("Publication " + id + " not deleted. ");
+			}
+		}
+	}
+	
+	
+	
+	
 	
 	// ==================== ORDER METHODS ====================
 	private static void manageOrder() {
