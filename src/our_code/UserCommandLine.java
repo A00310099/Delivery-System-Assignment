@@ -398,7 +398,7 @@ public class UserCommandLine {
 			case "va":
 			case "2":
 				try {
-					readPublication();
+					readPublication("all");
 				}
 				catch(Exception e) {
 					System.err.println("\nCould not view all Publications. Error: " + e.getMessage());

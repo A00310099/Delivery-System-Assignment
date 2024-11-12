@@ -9,9 +9,22 @@ public class Publication {
 	private int publicationStock;
 	private double publicationCost;
 	
-	public Publication (String pubID, String pubName, String pubType, String pubFreq, int pubStock, double pubCost){
+	public Publication (String pubID, String pubName, String pubType, String pubFreq, int pubStock, double pubCost) throws PublicationExceptionHandler{
+		
+		try {
+			this.validatePubID(pubID);
+			this.validatePubName(pubName);
+			this.validatePublicationType(pubType);
+			this.validatePubFreq(pubFreq);
+			this.validatePubStock(pubStock);
+			this.validatePubCost(pubCost);
+			
+		} catch (PublicationExceptionHandler e) {
+			throw e;
+		}
 		this.publicationID = pubID;
 		this.publicationName = pubName;
+		this.publicationType = pubType;
 		this.publicationFreq = pubFreq;
 		this.publicationStock = pubStock;
 		this.publicationCost = pubCost;
@@ -21,6 +34,7 @@ public class Publication {
 	public Publication() {
 		this.publicationID = null;
 		this.publicationName = null;
+		this.publicationType = null;
 		this.publicationFreq = null;
 		this.publicationStock = 0;
 		this.publicationCost = 0.0;
