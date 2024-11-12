@@ -2,7 +2,7 @@ package our_code;
 
 public class Invoice {
 	
-	private String invoiceID; // Format IN000
+	private String invoiceID; // Format 000
 	private double totalCost;
 	private String paymentReminder1;
 	private String paymentReminder2;

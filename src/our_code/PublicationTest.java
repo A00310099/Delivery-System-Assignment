@@ -20,6 +20,11 @@ class PublicationTest {
 	public void testValidPublicationName() throws PublicationExceptionHandler {
 		assertTrue(publication.validatePubName("Irish Times"));
 	}
+	
+	@Test
+	public void testPublicationType() throws PublicationExceptionHandler {
+		assertTrue(publication.validatePublicationType("newspaper"));
+	}
 	// Frequency tests
 	@Test
 	public void testValidPublicationFrequency1() throws PublicationExceptionHandler {
