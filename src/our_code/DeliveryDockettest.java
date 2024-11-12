@@ -16,7 +16,7 @@ class DeliveryDockettest {
 			   return true;
 		   }
 		   else {
-	            throw new DeliveryAreaExceptionHandler("docketid must be in the format DD001");}
+	            throw new DeliveryDocketExceptionHandler("docketid must be in the format DD001");}
 	        }
 		   
 		   @Test  
@@ -29,7 +29,7 @@ class DeliveryDockettest {
 					   return true;
 				   }
 				   else {
-			            throw new DeliveryAreaExceptionHandler("theTime should be in format 00:00 ");}
+			            throw new DeliveryDocketExceptionHandler("theTime should be in format 00:00 ");}
 			        }
 	     @Test  
 		  public void statusY() {  
@@ -41,7 +41,7 @@ class DeliveryDockettest {
 		   return true;
 	      }
 		   else {
-		  throw new DeliveryAreaExceptionHandler("Status should be Y or N");}
+		  throw new DeliveryDocketExceptionHandler("Status should be Y or N");}
 		  }	
 		   @Test  
 		  public void statusN() {  
@@ -53,7 +53,7 @@ class DeliveryDockettest {
 			   return true;
 		     }
 			  else {
-		     throw new DeliveryAreaExceptionHandler("Status should be N");}
+		     throw new DeliveryDocketExceptionHandler("Status should be N");}
 		     }
 		      
 		      @Test  

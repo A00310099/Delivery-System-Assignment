@@ -115,13 +115,13 @@ public class DeliveryDocket {
 	}
 	
 	public boolean validateDeliveryArea(String deliveryArea) throws DeliveryDocketExceptionHandler{
-		if(deliveryArea.length() < 4)
+		if(deliveryArea.length() < 3)
 		{
-			throw new DeliveryDocketExceptionHandler("Delivery Area Name length must be more or equal to 4");
+			throw new DeliveryDocketExceptionHandler("Delivery Area Name length must be more or equal to 3");
 		}
-		if(deliveryArea.length() > 64)
+		if(deliveryArea.length() > 20)
 		{
-			throw new DeliveryDocketExceptionHandler("Delivery Area Name length must be less than or equal to 64");
+			throw new DeliveryDocketExceptionHandler("Delivery Area Name length must be less than or equal to 20");
 		}
 		return true;
 					
