@@ -437,31 +437,62 @@ public class UserCommandLine {
 			case "create":
 			case "c":
 			case "1":
-				System.out.println("Creating Order... [NOT YET IMPLEMENTED]"); //TODO Create Order
+				try {
+					createOrder();
+				} catch (OrderExceptionHandler e) {
+					System.err.println("\nCould not create order. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "view all":
 			case "va":
 			case "2":
-				System.out.println("Viewing all Order records... [NOT YET IMPLEMENTED]"); //TODO Read all Orders
+				try {
+					readOrder("all");
+				} catch (Exception e) {
+					System.err.println("\nCould not read order records. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "view":
 			case "v":
 			case "3":
-				System.out.println("Viewing specific Order record... [NOT YET IMPLEMENTED]"); //TODO Read Order by ID
+				
+				try {
+					readOrder();
+				} catch (Exception e) {
+					System.err.println("\nCould not read order records. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "update":
 			case "u":
 			case "4":
-				System.out.println("Updating Order record... [NOT YET IMPLEMENTED]"); //TODO Update Order
+				try {
+					updateOrder();
+				} catch (Exception e) {
+					System.err.println("\nCould not update order records. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "delete":
 			case "d":
 			case "5":
-				System.out.println("Deleting Order record... [NOT YET IMPLEMENTED]"); //TODO Delete Order
+				try {
+					deleteOrder();
+				} catch (Exception e) {
+					System.err.println("\nCould not delete order records. Error: " + e.getMessage());
+				} finally {
+					waitForUserInput();
+				}
 				break;
 				
 			case "back":
@@ -477,11 +508,11 @@ public class UserCommandLine {
 				System.out.println(invalidOption);
 				break;
 			}
-			
+	
 		}
 	}
 	private static void createOrder() throws OrderExceptionHandler {
-		System.out.println("----- CREATING NEW Order -----");
+		System.out.println("----- CREATING NEW ORDER -----");
 		System.out.print("Enter order ID: ");
 		String orderID = in.nextLine();
 		System.out.print("Enter delivery Area: ");
