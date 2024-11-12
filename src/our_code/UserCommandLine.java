@@ -304,7 +304,7 @@ public class UserCommandLine {
 			return false; // No customer(s) to display
 		}
 	}
-	private static void updateCustomer() throws Exception { // TODO
+	private static void updateCustomer() throws Exception {
 		System.out.print("Enter the ID of the customer you would like to update: ");
 		String id = in.nextLine();
 		
