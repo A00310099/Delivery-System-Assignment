@@ -10,6 +10,17 @@ public class Order {
 	public Order() {
 		// TODO constructor
 	}
+	public Order(String orderID, String publicationID, String weekDay, String customerID, String deliveryArea) throws OrderExceptionHandler{
+		try {
+			this.validateOrderID(orderID);
+			this.validatePublicationID(publicationID);
+			this.validateWeekDay(weekDay);
+			this.validateCustomerID(customerID);
+			this.validateDeliveryArea(deliveryArea);
+		} catch(OrderExceptionHandler o) {
+			throw o;
+		}
+	}
 	
 	// Getters
 	public String getOrderID() {
@@ -75,6 +86,31 @@ public class Order {
 		}
 		return true;
 	}
+	
+	public boolean validateOrderID(String id) throws OrderExceptionHandler{
+		if(id.equals("all")) {
+			throw new OrderExceptionHandler("ID \"all\" is not valid as it is reserved");
+		}
+		
+		if(id == null || id.isEmpty())
+		{
+			throw new OrderExceptionHandler("Order ID must be greater than 0");
+		}
 
+		return true;
+	}
+	public boolean validateDeliveryArea(String id) throws OrderExceptionHandler{
+		if(id.equals("all")) {
+			throw new OrderExceptionHandler("ID \"all\" is not valid as it is reserved");
+		}
+		
+		if(id == null || id.isEmpty())
+		{
+			throw new OrderExceptionHandler("DeliveryArea ID must be greater than 0");
+		}
+
+		return true;
+		
+	}
 	
 }

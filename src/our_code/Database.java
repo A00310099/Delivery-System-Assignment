@@ -94,7 +94,68 @@ public class Database {
     // ==================== PUBLICATION METHODS ====================
     
     // ==================== ORDER METHODS ====================
+    public boolean insertOrderDetailsAccount(Order o) {
+        boolean insertSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("INSERT INTO orders (order_id, delivery_area, customer_id, publication_id, week_day) VALUES (?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, o.getOrderID());
+            preparedStatement.setString(2, o.getDeliveryArea());
+            preparedStatement.setString(3, o.getCustomerID());
+            preparedStatement.setString(4, o.getPublicationID());
+    		preparedStatement.setString(5, o.getWeekDay());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            insertSucessful = false;
+        }
+        return insertSucessful;
+    }
+    public ResultSet retrieveOrderAccount(String id) {
+        try {
+            if (id.equals("all")) {
+            	statement = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // These parameters allow use of rs.first() and rs.beforeFirst() 
+            	resultSet = statement.executeQuery("SELECT * FROM orders");
+            } else {
+            	preparedStatement = connect.prepareStatement("SELECT * FROM orders WHERE order_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // Same as above
+            	preparedStatement.setString(1, id);
+            	resultSet = preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultSet = null;
+        }
+        return resultSet;
+    }
+    public boolean updateOrderRecord(Order o) {
+    	boolean updateSuccessful = true;
+    	try {
+    		preparedStatement = connect.prepareStatement("UPDATE orders SET delivery_area = ?, customer_id = ?, publication_id = ?, week_day = ? WHERE order_id = ?");
+            preparedStatement.setString(1, o.getDeliveryArea());
+            preparedStatement.setString(2, o.getCustomerID());
+            preparedStatement.setString(3, o.getPublicationID());
+    		preparedStatement.setString(4, o.getWeekDay());
+    		preparedStatement.setString(5, o.getOrderID());
+    		preparedStatement.executeUpdate();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		updateSuccessful = false;
+    	}
+    	
+    	return updateSuccessful;
+    }
     
+    public boolean deleteOrderById(String id) {
+        boolean deleteSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("DELETE FROM orders WHERE order_id = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteSucessful = false;
+        }
+        return deleteSucessful;
+    }
     // ==================== INVOICE METHODS ====================
     
     // ==================== DELIVERY DOCKET METHODS ====================

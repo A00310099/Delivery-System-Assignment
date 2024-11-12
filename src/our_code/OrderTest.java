@@ -74,4 +74,25 @@ class OrderTest {
 			order.validateCustomerID("");
 		});
 	}
+	@Test
+	void testValidOrderID() throws OrderExceptionHandler{
+		assertTrue(order.validateOrderID("O6666"));
+	}
+	@Test
+	void testInvalidOrderID() throws OrderExceptionHandler {
+		assertThrows(OrderExceptionHandler.class, () -> {
+			order.validateOrderID("");
+		});
+	}
+	@Test
+	void testValidDeliveryAreaID() throws OrderExceptionHandler{
+		assertTrue(order.validateDeliveryArea("AT001"));
+	}
+	@Test
+	void testInvalidDeliveryArea() throws OrderExceptionHandler {
+		assertThrows(OrderExceptionHandler.class, () -> {
+			order.validateOrderID("");
+		});
+	}
+	
 }

@@ -480,6 +480,132 @@ public class UserCommandLine {
 			
 		}
 	}
+	private static void createOrder() throws OrderExceptionHandler {
+		System.out.println("----- CREATING NEW Order -----");
+		System.out.print("Enter order ID: ");
+		String orderID = in.nextLine();
+		System.out.print("Enter delivery Area: ");
+		String deliveryArea = in.nextLine();
+		System.out.print("Enter customer id: ");
+		String customerID = in.nextLine();
+		System.out.print("Enter publication id: ");
+		String publicationID = in.nextLine();
+		System.out.print("Enter week day: ");
+		String weekDay = in.nextLine();
+		
+		Order o = new Order(orderID, publicationID, weekDay, customerID, deliveryArea);
+		
+		if (db.insertOrderDetailsAccount(o)) {
+			System.out.print("\nNew order saved to database. ");
+		} else {
+			System.out.print("\nOrder NOT saved to database. ");
+		}
+	}
+	/** This version of the method asks the user for input then passes that input to the readCustomer(String) method */
+	private static void readOrder() throws SQLException {
+		System.out.print("Enter Order ID to view or \"all\" to view all orders: ");
+		String id = in.nextLine();
+		readOrder(id);
+	}
+	private static boolean readOrder(String orderId) throws SQLException {
+		ResultSet rs = db.retrieveOrderAccount(orderId);
+		
+		int[] columnWidth = calculateColumnWidths(rs);
+		String horizontalBorder = generateHorizontalBorder(columnWidth);
+		
+		// Print the table
+		if (rs != null && rs.next()) {
+			rs.beforeFirst(); // Since we're using rs.next() to check if the result set is empty or not, we need to reset its position here
+			System.out.println("TABLE: " + rs.getMetaData().getTableName(1).toUpperCase());
+			System.out.println(horizontalBorder);
+			System.out.print("| ");
+			for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+				System.out.printf("%-" + columnWidth[i - 1] + "s | ",rs.getMetaData().getColumnName(i).toUpperCase());
+			}
+			System.out.println("\n" + horizontalBorder);
+
+			while (rs.next()) {
+				String orderID = rs.getString("order_id");
+				String deliveryArea = rs.getString("delivery_area");
+				String customerID = rs.getString("customer_id");
+				String publicationID = rs.getString("publication_id");
+				String weekDay = rs.getString("week_day");
+				System.out.printf("| %-" + columnWidth[0] + "s ", orderID);
+				System.out.printf("| %-" + columnWidth[1] + "s ", deliveryArea);
+				System.out.printf("| %-" + columnWidth[2] + "s ", customerID);
+				System.out.printf("| %-" + columnWidth[3] + "s ", publicationID);
+				System.out.printf("| %-" + columnWidth[4] + "s | ", weekDay);
+				System.out.println();
+			}// end while
+			System.out.println(horizontalBorder);
+			return true; // Order successfully displayed
+		} else {
+			System.out.print("Record(s) not found. ");
+			return false; // No order(s) to display
+		}
+	}
+	private static void updateOrder() throws Exception { // TODO
+		System.out.print("Enter the ID of the order you would like to update: ");
+		String orderID = in.nextLine();
+		
+		if (orderID.equals("all")) {
+			throw new Exception("Cannot update all orders at once!");
+		}
+		else if (readOrder(orderID)) {
+			System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
+			
+			ResultSet rs = db.retrieveOrderAccount(orderID); // Retrieve the result set so values can be kept the same by leaving them blank
+			rs.first(); // Set cursor to first (only) entry
+			
+			System.out.print("Enter new Delivery Area ID: ");
+			String deliveryArea = in.nextLine();
+			if (deliveryArea.isEmpty()) {
+				deliveryArea = rs.getString("delivery_area");
+			}
+			System.out.print("Enter new Customer id: ");
+			String customerID = in.nextLine();
+			if (customerID.isEmpty()) {
+				customerID = rs.getString("customer_id");
+			}
+			System.out.print("Enter new Publication ID: ");
+			String publicationID = in.nextLine();
+			if (publicationID.isEmpty()) {
+				publicationID = rs.getString("publication_id");
+			}
+			System.out.print("Enter new Week Day: ");
+			String weekDay = in.nextLine();
+			if (weekDay.isEmpty()) {
+				weekDay = rs.getString("week_day");
+			}
+			
+			Order o = new Order(orderID, publicationID, weekDay, customerID, deliveryArea);
+			
+			if (db.updateOrderRecord(o)) {
+				System.out.println("\nOrder record updated. Order is now:");
+				readOrder(orderID);
+			} else {
+				System.out.print("\nCustomer NOT updated. ");
+			}
+		}
+	}
+	private static void deleteOrder() throws Exception {
+		System.out.print("Enter the ID of the Order you would like to delete: ");
+		String orderID = in.nextLine();
+		
+		if (orderID.equals("all")) {
+			throw new Exception("Cannot delete all Order at once!");
+		}
+		else if (readOrder(orderID)) {
+			System.out.println("Warning: You are about to permanently delete the above record! This can not be undone.");
+			System.out.print("Type CONFIRM if you are sure you want to do this. ");
+			if (in.nextLine().toLowerCase().equals("confirm")) {
+				db.deleteOrderById(orderID);
+				System.out.print("Order " + orderID + " deleted. ");
+			} else {
+				System.out.print("Order " + orderID + " not deleted. ");
+			}
+		}
+	}
 	
 	// ==================== INVOICE METHODS ====================
 	private static void manageInvoice() {

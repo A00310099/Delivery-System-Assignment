@@ -23,6 +23,11 @@ public class DeliveryDocket {
 		} catch(DeliveryDocketExceptionHandler d) {
 			throw d;
 		}
+		this.docketID = docketID;
+		this.theTime = theTime;
+		this.deliveryArea = deliveryArea;
+		this.orderStatus = orderStatus;
+		this.listOfOrders = listOfOrders;
 	}
 	
 	void setId(int docID) 
