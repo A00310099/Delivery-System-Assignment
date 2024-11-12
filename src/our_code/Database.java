@@ -94,7 +94,7 @@ public class Database {
     // ==================== PUBLICATION METHODS ====================
     
     // ==================== ORDER METHODS ====================
-    public boolean insertOrderDetailsAccount(Order o) {
+    public boolean insertOrderDetailsAccount(Order o) throws Exception {
         boolean insertSucessful = true;
         try {
             preparedStatement = connect.prepareStatement("INSERT INTO orders (order_id, delivery_area, customer_id, publication_id, week_day) VALUES (?, ?, ?, ?, ?)");
@@ -105,8 +105,8 @@ public class Database {
     		preparedStatement.setString(5, o.getWeekDay());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
             insertSucessful = false;
+            throw e;
         }
         return insertSucessful;
     }

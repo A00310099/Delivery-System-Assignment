@@ -170,7 +170,7 @@ public class UserCommandLine {
 			case "1":
 				try {
 					createCustomer();
-				} catch (CustomerExceptionHandler e) {
+				} catch (Exception e) {
 					System.err.println("\nCould not create customer. Error: " + e.getMessage());
 				} finally {
 					waitForUserInput();
@@ -439,7 +439,7 @@ public class UserCommandLine {
 			case "1":
 				try {
 					createOrder();
-				} catch (OrderExceptionHandler e) {
+				} catch (Exception e) {
 					System.err.println("\nCould not create order. Error: " + e.getMessage());
 				} finally {
 					waitForUserInput();
@@ -511,7 +511,7 @@ public class UserCommandLine {
 	
 		}
 	}
-	private static void createOrder() throws OrderExceptionHandler {
+	private static void createOrder() throws Exception {
 		System.out.println("----- CREATING NEW ORDER -----");
 		System.out.print("Enter order ID: ");
 		String orderID = in.nextLine();
