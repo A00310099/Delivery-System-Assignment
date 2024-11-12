@@ -126,7 +126,7 @@ public class Database {
         }
         return resultSet;
     }
-    public boolean updateOrderRecord(Order o) {
+    public boolean updateOrderRecord(Order o) throws Exception {
     	boolean updateSuccessful = true;
     	try {
     		preparedStatement = connect.prepareStatement("UPDATE orders SET delivery_area = ?, customer_id = ?, publication_id = ?, week_day = ? WHERE order_id = ?");
@@ -137,8 +137,8 @@ public class Database {
     		preparedStatement.setString(5, o.getOrderID());
     		preparedStatement.executeUpdate();
     	} catch (Exception e) {
-    		e.printStackTrace();
     		updateSuccessful = false;
+    		throw e;
     	}
     	
     	return updateSuccessful;

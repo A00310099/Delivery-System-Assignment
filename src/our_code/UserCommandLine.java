@@ -575,7 +575,7 @@ public class UserCommandLine {
 			return false; // No order(s) to display
 		}
 	}
-	private static void updateOrder() throws Exception { // TODO
+	private static void updateOrder() throws Exception {
 		System.out.print("Enter the ID of the order you would like to update: ");
 		String orderID = in.nextLine();
 		
