@@ -91,16 +91,18 @@ public class Publication {
 	
 	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
 		
-		if (pubID.equals("001"))
-		{
-			return true;
-		}
-		else
-		{
-			throw new PublicationExceptionHandler("Invalid Publication ID, must be in format 000");
+		if(pubID.equals("all")) {
+			throw new PublicationExceptionHandler("ID \"all\" is not valid as it is reserved");
 		}
 		
+		if(pubID == null || pubID.isEmpty())
+		{
+			throw new PublicationExceptionHandler("Publication ID must not be empty: ");
+		}
+
+		return true;
 	}
+		
 	
 	public boolean validatePublicationType (String pubType) throws PublicationExceptionHandler {
 		

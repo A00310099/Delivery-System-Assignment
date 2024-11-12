@@ -485,9 +485,9 @@ public class UserCommandLine {
 		Publication p = new Publication(id, name, type, frequency, stock, cost);
 		
 		if (db.insertPublication(p)) {
-			System.out.print("\nNew customer saved to database. ");
+			System.out.print("\nNew Publication saved to database. ");
 		} else {
-			System.out.print("\nCustomer NOT saved to database. ");
+			System.out.print("\nPublication NOT saved to database. ");
 		}
 	}
 	
@@ -580,7 +580,7 @@ public class UserCommandLine {
 			
 			if (db.updatePublication(p)) {
 				System.out.println("\nPublication record updated. Publication is now:");
-				readCustomer(id);
+				readPublication(id);
 			} else {
 				System.out.print("\nPublication NOT updated. ");
 			}
@@ -594,7 +594,7 @@ public class UserCommandLine {
 		if (id.equals("all")) {
 			throw new Exception("Cannot delete all publications at once!");
 		}
-		else if (readCustomer(id)) {
+		else if (readPublication(id)) {
 			System.out.println("Warning: You are about to permanently delete the above record! This can not be undone.");
 			System.out.print("Type CONFIRM if you are sure you want to do this. ");
 			if (in.nextLine().toLowerCase().equals("confirm")) {
