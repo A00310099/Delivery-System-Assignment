@@ -17,9 +17,15 @@ public class Order {
 			this.validateWeekDay(weekDay);
 			this.validateCustomerID(customerID);
 			this.validateDeliveryArea(deliveryArea);
-		} catch(OrderExceptionHandler o) {
-			throw o;
+		} catch(OrderExceptionHandler e) {
+			throw e;
 		}
+		
+		this.orderID = orderID;
+		this.publicationID = publicationID;
+		this.weekDay = weekDay;
+		this.customerID = customerID;
+		this.deliveryArea = deliveryArea;
 	}
 	
 	// Getters
