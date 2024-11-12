@@ -108,7 +108,7 @@ public class Publication {
 		}
 		else
 		{
-			return false;
+			throw new PublicationExceptionHandler("Not Daily, Weekly, Monthly, Once");
 		}
 		
 		
