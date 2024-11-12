@@ -52,7 +52,7 @@ public class Order {
 	public boolean validatePublicationID(String id) throws OrderExceptionHandler {
 		// Publication ID cannot be 0 or a negative number
 		if (id == null || id.isEmpty()) {
-			throw new OrderExceptionHandler("Publication ID must be greater than 0");
+			throw new OrderExceptionHandler("Publication ID cannot be empty");
 		}
 		return true;
 	}
@@ -71,7 +71,7 @@ public class Order {
 	public boolean validateCustomerID(String id) throws OrderExceptionHandler {
 		// Customer ID cannot be 0 or a negative number
 		if (id == null || id.isEmpty()) {
-			throw new OrderExceptionHandler("Customer ID must be greater than 0");
+			throw new OrderExceptionHandler("Customer ID cannot be empty");
 		}
 		return true;
 	}
