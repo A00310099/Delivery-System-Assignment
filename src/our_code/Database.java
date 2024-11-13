@@ -44,6 +44,7 @@ public class Database {
         }
         return insertSucessful;
     }
+    
     public ResultSet retrieveCustomerAccount(String id) {
         try {
             if (id.equals("all")) {
@@ -60,6 +61,7 @@ public class Database {
         }
         return resultSet;
     }
+    
     public boolean updateCustomerRecord(Customer c) {
     	boolean updateSuccessful = true;
     	try {
@@ -92,6 +94,75 @@ public class Database {
     }
 
     // ==================== PUBLICATION METHODS ====================
+    
+    public boolean insertPublication(Publication p) {
+        boolean insertSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("INSERT INTO publications (publication_id, name, type, frequency, stock, cost) VALUES (?, ?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, p.getPublicationID());
+            preparedStatement.setString(2, p.getPublicationName());
+            preparedStatement.setString(3, p.getPublicationType());
+            preparedStatement.setString(4, p.getPublicationFreq());
+            preparedStatement.setInt(5, p.getPublicationStock());
+            preparedStatement.setDouble(6, p.getPublicationCost());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            insertSucessful = false;
+        }
+        return insertSucessful;
+    }
+    
+    public ResultSet retrievePublication(String id) {
+        try {
+            if (id.equals("all")) {
+            	statement = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // These parameters allow use of rs.first() and rs.beforeFirst() 
+            	resultSet = statement.executeQuery("SELECT * FROM publications");
+            } else {
+            	preparedStatement = connect.prepareStatement("SELECT * FROM publications WHERE publication_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // Same as above
+            	preparedStatement.setString(1, id);
+            	resultSet = preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultSet = null;
+        }
+        return resultSet;
+    }
+    
+    public boolean updatePublication(Publication p) {
+    	boolean updateSuccessful = true;
+    	try {
+    		preparedStatement = connect.prepareStatement("UPDATE publications SET name = ?, type = ?, frequency = ?, stock = ?, cost = ? WHERE publication_id = ?");
+            preparedStatement.setString(1, p.getPublicationName());
+            preparedStatement.setString(2, p.getPublicationType());
+            preparedStatement.setString(3, p.getPublicationFreq());
+            preparedStatement.setInt(4, p.getPublicationStock());
+            preparedStatement.setDouble(5, p.getPublicationCost());
+    		preparedStatement.setString(6, p.getPublicationID());
+    		preparedStatement.executeUpdate();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		updateSuccessful = false;
+    	}
+    	
+    	return updateSuccessful;
+    	
+    }
+    
+    public boolean deletePublicationById(String id) {
+        boolean deleteSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("DELETE FROM publications WHERE publication_id = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteSucessful = false;
+        }
+        return deleteSucessful;
+    }
+    
     
     // ==================== ORDER METHODS ====================
     public boolean insertOrderDetailsAccount(Order o) throws Exception {

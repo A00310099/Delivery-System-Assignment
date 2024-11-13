@@ -2,16 +2,29 @@ package our_code;
 
 public class Publication {
 	
-	private String publicationID; // Format PB000
+	private String publicationID; // Format 000
 	private String publicationName;
 	private String publicationType;
 	private String publicationFreq;
 	private int publicationStock;
 	private double publicationCost;
 	
-	public Publication (String pubID, String pubName, String pubType, String pubFreq, int pubStock, double pubCost){
+	public Publication (String pubID, String pubName, String pubType, String pubFreq, int pubStock, double pubCost) throws PublicationExceptionHandler{
+		
+		try {
+			this.validatePubID(pubID);
+			this.validatePubName(pubName);
+			this.validatePublicationType(pubType);
+			this.validatePubFreq(pubFreq);
+			this.validatePubStock(pubStock);
+			this.validatePubCost(pubCost);
+			
+		} catch (PublicationExceptionHandler e) {
+			throw e;
+		}
 		this.publicationID = pubID;
 		this.publicationName = pubName;
+		this.publicationType = pubType;
 		this.publicationFreq = pubFreq;
 		this.publicationStock = pubStock;
 		this.publicationCost = pubCost;
@@ -21,6 +34,7 @@ public class Publication {
 	public Publication() {
 		this.publicationID = null;
 		this.publicationName = null;
+		this.publicationType = null;
 		this.publicationFreq = null;
 		this.publicationStock = 0;
 		this.publicationCost = 0.0;
@@ -77,21 +91,37 @@ public class Publication {
 	
 	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
 		
-		if (pubID.equals("PB001"))
+		if(pubID.equals("all")) {
+			throw new PublicationExceptionHandler("ID \"all\" is not valid as it is reserved");
+		}
+		
+		if(pubID == null || pubID.isEmpty())
+		{
+			throw new PublicationExceptionHandler("Publication ID must not be empty: ");
+		}
+
+		return true;
+	}
+		
+	
+	public boolean validatePublicationType (String pubType) throws PublicationExceptionHandler {
+		
+		pubType = pubType.toLowerCase();
+		
+		if (pubType.equals("newspaper") || pubType.equals("magazine") || pubType.equals("book"))
 		{
 			return true;
 		}
 		else
 		{
-		return false;
+			throw new PublicationExceptionHandler("Invalid Publication Type, Must be ");
 		}
-		
 	}
 	
 	public boolean validatePubName (String pubName ) throws PublicationExceptionHandler {
 		if (pubName.length() < 4 || pubName.length() > 64)
 		{
-		return false;
+			throw new PublicationExceptionHandler("Invalid User Name, must be between 4 & 64 characters in length");
 		}
 		else
 		{
@@ -102,13 +132,15 @@ public class Publication {
 	
 	public boolean validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
 		
-		if (pubFreq.equals("Daily") || pubFreq.equals("Weekly") || pubFreq.equals("Monthly") || pubFreq.equals("Once"))
+		pubFreq = pubFreq.toLowerCase();
+		
+		if (pubFreq.equals("daily") || pubFreq.equals("weekly") || pubFreq.equals("fortnightly") || pubFreq.equals("monthly") || pubFreq.equals("once"))
 		{
 			return true;
 		}
 		else
 		{
-			return false;
+			throw new PublicationExceptionHandler("Not Daily, ,Fortnightly, Weekly, Monthly, Once");
 		}
 		
 		
@@ -121,11 +153,11 @@ public class Publication {
 		}
 		else if (pubStock == 0)
 		{
-			return false;
+			throw new PublicationExceptionHandler("The Stock of this publication is Zero, empty");
 		}
 		else
 		{
-			return false;
+			throw new PublicationExceptionHandler("Invalid Stock input/output");
 		}
 		
 	}
@@ -139,7 +171,7 @@ public class Publication {
 		}
 		else
 		{
-		return false;
+			throw new PublicationExceptionHandler("Invlaid amount, must in the amount 0.0 (free) or greater ie 3.50");
 		}
 		
 	}
