@@ -229,6 +229,69 @@ public class Database {
     }
     // ==================== INVOICE METHODS ====================
     
+    public boolean insertCustomerDetailsAccount(Invoice i) {
+        boolean insertSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("INSERT INTO invoices (customer_id, total_cost, reminder, status, invoice_id) VALUES (?, ?, ?, ?, ?)");
+            preparedStatement.setString(1, i.getCustomerID());
+            preparedStatement.setDouble(2, i.getTotalCost());
+            preparedStatement.setBoolean(3, i.getReminder());
+    		preparedStatement.setString(4, i.getStatus());
+    		preparedStatement.setString(5, i.getInvoiceID());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            insertSucessful = false;
+        }
+        return insertSucessful;
+    }
+    public ResultSet retrieveInvoiceAccount(String id) {
+        try {
+            if (id.equals("all")) {
+            	statement = connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // These parameters allow use of rs.first() and rs.beforeFirst() 
+            	resultSet = statement.executeQuery("SELECT * FROM invoices");
+            } else {
+            	preparedStatement = connect.prepareStatement("SELECT * FROM invoices WHERE invoice_id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); // Same as above
+            	preparedStatement.setString(1, id);
+            	resultSet = preparedStatement.executeQuery();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultSet = null;
+        }
+        return resultSet;
+    }
+    public boolean updateInvoiceRecord(Invoice i) {
+    	boolean updateSuccessful = true;
+    	try {
+    		preparedStatement = connect.prepareStatement("UPDATE invoices SET customer_id = ?, total_cost = ?, reminder = ?, status = ? WHERE invoice_id = ?");
+            preparedStatement.setString(1, i.getCustomerID());
+            preparedStatement.setDouble(2, i.getTotalCost());
+            preparedStatement.setBoolean(3, i.getReminder());
+    		preparedStatement.setString(4, i.getStatus());
+    		preparedStatement.setString(5, i.getInvoiceID());
+    		preparedStatement.executeUpdate();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		updateSuccessful = false;
+    	}
+    	
+    	return updateSuccessful;
+    }
+    
+    public boolean deleteInvoiceById(String id) {
+        boolean deleteSucessful = true;
+        try {
+            preparedStatement = connect.prepareStatement("DELETE FROM invoices WHERE invoice_id = ?");
+            preparedStatement.setString(1, id);
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            deleteSucessful = false;
+        }
+        return deleteSucessful;
+    }
+    
     // ==================== DELIVERY DOCKET METHODS ====================
     
     // ==================== DELIVERY AREA METHODS ====================
