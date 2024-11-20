@@ -943,7 +943,8 @@ public class UserCommandLine {
 
 	private static boolean readInvoice(String invoiceId) throws SQLException {
 	    ResultSet rs = db.retrieveInvoiceAccount(invoiceId);
-
+	    rs.first();
+	    
 	    int[] columnWidth = calculateColumnWidths(rs);
 	    String horizontalBorder = generateHorizontalBorder(columnWidth);
 
@@ -961,14 +962,15 @@ public class UserCommandLine {
 	            String id = rs.getString("invoice_id");
 	            String customerId = rs.getString("customer_id");
 	            double amount = rs.getDouble("total_cost");
-	            String status = rs.getString("status");
 	            boolean reminder = rs.getBoolean("reminder");
+	            String status = rs.getString("status");
 
 	            System.out.printf("| %-" + columnWidth[0] + "s ", id);
 	            System.out.printf("| %-" + columnWidth[1] + "s ", customerId);
 	            System.out.printf("| %-" + columnWidth[2] + ".2f ", amount);
-	            System.out.printf("| %-" + columnWidth[3] + "s ", status);
-	            System.out.printf("| %-" + columnWidth[4] + "s | ", reminder ? "Yes" : "No");
+	            System.out.printf("| %-" + columnWidth[3] + "s ", reminder ? "Yes" : "No");
+	            System.out.printf("| %-" + columnWidth[4] + "s |", status);
+	            
 	            System.out.println();
 	        } 
 	        System.out.println(horizontalBorder);
@@ -989,11 +991,13 @@ public class UserCommandLine {
 	        System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
 
 	        ResultSet rs = db.retrieveInvoiceAccount(id); 
+	        rs.first();
 
 	        System.out.print("Enter new invoice total cost: ");
 	        double totalCost = Double.parseDouble(in.nextLine());
 	        if (totalCost == 0) {
 	            totalCost = rs.getDouble("total_cost");
+	            
 	        }
 	        System.out.print("Enter new invoice status (Paid/Unpaid): ");
 	        String status = in.nextLine();
@@ -1003,6 +1007,10 @@ public class UserCommandLine {
 
 	        Invoice invoice = new Invoice(rs.getString("customer_id"), totalCost);
 	        invoice.setStatus(status);
+	        int invoiceID = Integer.parseInt(in.nextLine());
+	        invoice.setInvoiceID(invoiceID);
+	        
+	     
 
 	        if (db.updateInvoiceRecord(invoice)) {
 	            System.out.println("\nInvoice record updated.");

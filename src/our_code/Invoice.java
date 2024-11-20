@@ -10,7 +10,7 @@ public class Invoice {
     private boolean reminder;
     private boolean warningSent = false;
     private boolean accountCancelled = false;
-
+    
     public Invoice(String customerID, double totalCost) {
         if (isValidInput(customerID, totalCost)) {
             this.invoiceId = ++invoiceCounter;
@@ -77,6 +77,11 @@ public class Invoice {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    public void setInvoiceID(int invoiceID) {
+		this.invoiceId = invoiceID;
+	}
+    
 
     public void payInvoice(double paymentAmount) {
         if (paymentAmount >= totalCost) {
@@ -94,4 +99,7 @@ public class Invoice {
     public String getInvoiceID() {
         return String.valueOf(invoiceId);
     }
+
+
+	
 }
