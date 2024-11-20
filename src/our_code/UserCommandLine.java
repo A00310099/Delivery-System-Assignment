@@ -1007,7 +1007,7 @@ public class UserCommandLine {
 
 	        Invoice invoice = new Invoice(rs.getString("customer_id"), totalCost);
 	        invoice.setStatus(status);
-	        int invoiceID = Integer.parseInt(in.nextLine());
+	        int invoiceID = Integer.parseInt(id);
 	        invoice.setInvoiceID(invoiceID);
 	        
 	     

@@ -1,8 +1,24 @@
 package our_code;
 
+import java.sql.ResultSet;
+
 public class Invoice {
+   
+    private static int invoiceCounter() {
+    	try {
+    		Database db = new Database();
+    		ResultSet rs = db.retrieveInvoiceAccount("all");
+    		rs.last();
+    		return rs.getInt("invoice_id");
+    		
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return 0;
+    }
     
-    private static int invoiceCounter = 0;
+    
+    
     private int invoiceId;
     private String customerID;
     private double totalCost;
@@ -13,7 +29,7 @@ public class Invoice {
     
     public Invoice(String customerID, double totalCost) {
         if (isValidInput(customerID, totalCost)) {
-            this.invoiceId = ++invoiceCounter;
+            this.invoiceId = invoiceCounter() + 1;
             this.customerID = customerID;
             this.totalCost = totalCost;
             this.status = "Unpaid";
