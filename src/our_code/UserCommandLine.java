@@ -827,63 +827,209 @@ public class UserCommandLine {
 			}
 		}
 	}
-	
+
 	// ==================== INVOICE METHODS ====================
 	private static void manageInvoice() {
-		boolean managingEntity = true;
-		
-		while (managingEntity) {
-			listEntityOptions("Invoice");
-			functionNumber = in.nextLine();
-			functionNumber = functionNumber.toLowerCase();
-			
-			switch(functionNumber) {
-			case "create":
-			case "c":
-			case "1":
-				System.out.println("Creating Invoice... [NOT YET IMPLEMENTED]"); //TODO Create Invoice
-				break;
-				
-			case "view all":
-			case "va":
-			case "2":
-				System.out.println("Viewing all Invoice records... [NOT YET IMPLEMENTED]"); //TODO Read all Invoices
-				break;
-				
-			case "view":
-			case "v":
-			case "3":
-				System.out.println("Viewing specific Invoice record... [NOT YET IMPLEMENTED]"); //TODO Read Invoice by ID
-				break;
-				
-			case "update":
-			case "u":
-			case "4":
-				System.out.println("Updating Invoice record... [NOT YET IMPLEMENTED]"); //TODO Update Invoice
-				break;
-				
-			case "delete":
-			case "d":
-			case "5":
-				System.out.println("Deleting Invoice record... [NOT YET IMPLEMENTED]"); //TODO Delete Invoice
-				break;
-				
-			case "back":
-			case "return":
-			case "exit":
-			case "close":
-			case "0":
-				managingEntity = false;
-				System.out.println("Returning to Entity Management...");
-				break;
-				
-			default:
-				System.out.println(invalidOption);
-				break;
-			}
-			
-		}
+	    boolean managingEntity = true;
+
+	    while (managingEntity) {
+	        listEntityOptions("Invoice");
+	        functionNumber = in.nextLine();
+	        functionNumber = functionNumber.toLowerCase();
+
+	        switch(functionNumber) {
+	        case "create":
+	        case "c":
+	        case "1":
+	            try {
+	                createInvoice();
+	            } catch (Exception e) {
+	                System.err.println("\nCould not create invoice. Error: " + e.getMessage());
+	            } finally {
+	                waitForUserInput();
+	            }
+	            break;
+
+	        case "view all":
+	        case "va":
+	        case "2":
+	            try {
+	                readInvoice("all");
+	            } catch (Exception e) {
+	                System.err.println("\nCould not view invoice records. Error: " + e.getMessage());
+	            } finally {
+	                waitForUserInput();
+	            }
+	            break;
+
+	        case "view":
+	        case "v":
+	        case "3":
+	            try {
+	                readInvoice();
+	            } catch (Exception e) {
+	                System.err.println("\nCould not view invoice record. Error: " + e.getMessage());
+	            } finally {
+	                waitForUserInput();
+	            }
+	            break;
+
+	        case "update":
+	        case "u":
+	        case "4":
+	            try {
+	                updateInvoice();
+	            } catch (Exception e) {
+	                System.err.println("\nCould not update invoice record. Error: " + e.getMessage());
+	            } finally {
+	                waitForUserInput();
+	            }
+	            break;
+
+	        case "delete":
+	        case "d":
+	        case "5":
+	            try {
+	                deleteInvoice();
+	            } catch (Exception e) {
+	                System.err.println("\nCould not delete invoice record. Error: " + e.getMessage());
+	            } finally {
+	                waitForUserInput();
+	            }
+	            break;
+
+	        case "back":
+	        case "return":
+	        case "exit":
+	        case "close":
+	        case "0":
+	            managingEntity = false;
+	            System.out.println("Returning to Entity Management...");
+	            break;
+
+	        default:
+	            System.out.println(invalidOption);
+	            break;
+	        }
+	    }
 	}
+
+	private static void createInvoice() throws InvoiceExceptionHandler {
+	    System.out.println("----- CREATING NEW INVOICE -----");
+	    System.out.print("Enter customer ID for this invoice: ");
+	    String customerId = in.nextLine();
+	    System.out.print("Enter invoice total cost: ");
+	    double totalCost = Double.parseDouble(in.nextLine());
+
+	    try {
+	        Invoice invoice = new Invoice(customerId, totalCost);
+	
+	        if (db.insertCustomerDetailsAccount(invoice)) {
+	            System.out.println("New invoice created and saved to database.");
+	        } else {
+	            System.out.println("Failed to save the new invoice.");
+	        }
+	    } catch (IllegalArgumentException e) {
+	        System.err.println("Error creating invoice: " + e.getMessage());
+	    }
+	}
+
+	private static void readInvoice() throws SQLException {
+	    System.out.print("Enter invoice ID to view or \"all\" to view all invoices: ");
+	    String id = in.nextLine();
+	    readInvoice(id);
+	}
+
+	private static boolean readInvoice(String invoiceId) throws SQLException {
+	    ResultSet rs = db.retrieveInvoiceAccount(invoiceId);
+
+	    int[] columnWidth = calculateColumnWidths(rs);
+	    String horizontalBorder = generateHorizontalBorder(columnWidth);
+
+	    if (rs != null && rs.next()) {
+	        rs.beforeFirst(); 
+	        System.out.println("TABLE: " + rs.getMetaData().getTableName(1).toUpperCase());
+	        System.out.println(horizontalBorder);
+	        System.out.print("| ");
+	        for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+	            System.out.printf("%-" + columnWidth[i - 1] + "s | ", rs.getMetaData().getColumnName(i).toUpperCase());
+	        }
+	        System.out.println("\n" + horizontalBorder);
+
+	        while (rs.next()) {
+	            String id = rs.getString("invoice_id");
+	            String customerId = rs.getString("customer_id");
+	            double amount = rs.getDouble("total_cost");
+	            String status = rs.getString("status");
+	            boolean reminder = rs.getBoolean("reminder");
+
+	            System.out.printf("| %-" + columnWidth[0] + "s ", id);
+	            System.out.printf("| %-" + columnWidth[1] + "s ", customerId);
+	            System.out.printf("| %-" + columnWidth[2] + ".2f ", amount);
+	            System.out.printf("| %-" + columnWidth[3] + "s ", status);
+	            System.out.printf("| %-" + columnWidth[4] + "s | ", reminder ? "Yes" : "No");
+	            System.out.println();
+	        } 
+	        System.out.println(horizontalBorder);
+	        return true;
+	    } else {
+	        System.out.print("Record(s) not found. ");
+	        return false; 
+	    }
+	}
+
+	private static void updateInvoice() throws Exception {
+	    System.out.print("Enter the ID of the invoice you would like to update: ");
+	    String id = in.nextLine();
+
+	    if (id.equals("all")) {
+	        throw new Exception("Cannot update all invoices at once!");
+	    } else if (readInvoice(id)) {
+	        System.out.println("You are about to update the above record. Enter new values where relevant, or leave blank to keep the old value.");
+
+	        ResultSet rs = db.retrieveInvoiceAccount(id); 
+
+	        System.out.print("Enter new invoice total cost: ");
+	        double totalCost = Double.parseDouble(in.nextLine());
+	        if (totalCost == 0) {
+	            totalCost = rs.getDouble("total_cost");
+	        }
+	        System.out.print("Enter new invoice status (Paid/Unpaid): ");
+	        String status = in.nextLine();
+	        if (status.isEmpty()) {
+	            status = rs.getString("status");
+	        }
+
+	        Invoice invoice = new Invoice(rs.getString("customer_id"), totalCost);
+	        invoice.setStatus(status);
+
+	        if (db.updateInvoiceRecord(invoice)) {
+	            System.out.println("\nInvoice record updated.");
+	            readInvoice(id);
+	        } else {
+	            System.out.println("\nInvoice NOT updated.");
+	        }
+	    }
+	}
+
+	private static void deleteInvoice() throws Exception {
+	    System.out.print("Enter the ID of the invoice you would like to delete: ");
+	    String id = in.nextLine();
+
+	    if (id.equals("all")) {
+	        throw new Exception("Cannot delete all invoices at once!");
+	    } else if (readInvoice(id)) {
+	        System.out.println("Warning: You are about to permanently delete the above record! This cannot be undone.");
+	        System.out.print("Type CONFIRM if you are sure you want to do this. ");
+	        if (in.nextLine().toLowerCase().equals("confirm")) {
+	            db.deleteInvoiceById(id);
+	            System.out.println("Invoice " + id + " deleted.");
+	        } else {
+	            System.out.println("Invoice " + id + " not deleted.");
+	        }
+	    }
+	}
+
 	
 	// ==================== DELIVERY DOCKET METHODS ====================
 	private static void manageDeliveryDocket() {
