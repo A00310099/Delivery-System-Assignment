@@ -29,7 +29,7 @@ public class DeliveryDocket {
 		this.orderStatus = orderStatus;
 		this.listOfOrders = listOfOrders;
 	}
-	
+	// getters and setters
 	void setId(int docID) 
 	{
 		docketID = docID;
@@ -81,18 +81,7 @@ public class DeliveryDocket {
 		return listOfOrders;
 	}
 	
-//	public boolean validateTime(String theTime) throws DeliveryDocketExceptionHandler{
-//		if(theTime)
-//		{
-//			return true;
-//		}
-//		
-//		else if(theTime.equals("25:000")) {
-//			
-//			return false;
-//		}
-//		return true;
-//	}
+	// validation for Docket ID throws exception handler for invalid inputs, return true for valid
 	public boolean validateDocketID(int docId) throws DeliveryDocketExceptionHandler{
 		if(docId <= 0)
 		{
@@ -101,24 +90,23 @@ public class DeliveryDocket {
 		return true;
 		
 	}
-	
+	// validation for Docket Order Status, return true for valid statements, throw Exception Handler for invalid inputs
 	public boolean validateOrderStatus(String status) throws DeliveryDocketExceptionHandler{
 		if(status.equals("Yes"))
 		{
 			return true;
-//			throw new CustomerExceptionHandler("Customer is avaliable for delivery");
+			
 		}
 		if(status.equals("No"))
 		{
 			return true;
-//			throw new CustomerExceptionHandler("Customer is avaliable for delivery");
 		}
 		else
 		{
 			throw new DeliveryDocketExceptionHandler("Invalid Status");
 		}
 	}
-	
+	// validation for Docket Delivery Area throws exception handler for invalid inputs, return true for valid
 	public boolean validateDeliveryArea(String deliveryArea) throws DeliveryDocketExceptionHandler{
 		if(deliveryArea.length() < 4)
 		{
