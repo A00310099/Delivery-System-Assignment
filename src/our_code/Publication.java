@@ -114,7 +114,7 @@ public class Publication {
 		}
 		else
 		{
-			throw new PublicationExceptionHandler("Invalid Publication Type, Must be ");
+			throw new PublicationExceptionHandler("Invalid Publication Type, Must be newspaper, magazine, or book");
 		}
 	}
 	
