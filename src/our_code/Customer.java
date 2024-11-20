@@ -32,6 +32,7 @@ public class Customer {
 		this.status = status;
 	}
 	
+	// getters and setters
 	void setCustomerId(String custId) {
 		this.customerID = custId;
 	}
@@ -73,7 +74,7 @@ public class Customer {
 	public String getStatus()	{
 		return status;
 	}
-	
+	// validation for Name of Customer, throws exception handler for invalid inputs, returns true for valid inputs
 	public boolean validateName(String custName) throws CustomerExceptionHandler {
 		if(custName.length() < 4)
 		{
@@ -84,13 +85,11 @@ public class Customer {
 			throw new CustomerExceptionHandler("Customer Name length must be less than or equal to 64");
 		}
 		return true;
-		
-		//Agree Formating Rules on "Customer Name"
-		//E.G. Name String must be a minimum of 2 characters and a maximum of 50 characters
+	
 	
 		
 	}
-	
+	// validation for Address throws exception handler for invalid inputs, returns true for valid inputs
 	public boolean validateAddress(String custAddr) throws CustomerExceptionHandler {
 		if(custAddr.length() < 4)
 		{
@@ -107,7 +106,7 @@ public class Customer {
 		
 		
 	}
-	
+	// validation for Customer Phone Number throws exception handler for invalid inputs, returns true for valid inputs
 	public boolean validatePhoneNumber(String custPhone) throws CustomerExceptionHandler{
 	if(custPhone.length() > 10)
 	{
@@ -121,7 +120,7 @@ public class Customer {
 		return true;
 		
 	}
-	
+	// validation for Customer ID throws exception handler for invalid inputs, throws return true for valid inputs
 	public boolean validateCustomerID(String custId) throws CustomerExceptionHandler {
 		
 		if(custId.equals("all")) {
@@ -136,7 +135,7 @@ public class Customer {
 		return true;
 	}
 	
-
+	// validation for Customer Status, throws true if valid, throws exception handler for invalid inputs
 	public boolean validateStatus(String custStatus) throws CustomerExceptionHandler {
 		custStatus = custStatus.toLowerCase();
 		if(custStatus.equals("active"))
