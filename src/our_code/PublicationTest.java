@@ -9,11 +9,11 @@ class PublicationTest {
 	
 	private final Publication publication = new Publication();
 
-	
 	//Valid Tests
+	
 	@Test
 	public void testValidPublicationID() throws PublicationExceptionHandler {
-		assertTrue(publication.validatePubID("PD001"));
+		assertTrue(publication.validatePubID("001"));
 	}
 	
 	@Test
@@ -25,7 +25,9 @@ class PublicationTest {
 	public void testPublicationType() throws PublicationExceptionHandler {
 		assertTrue(publication.validatePublicationType("newspaper"));
 	}
+	
 	// Frequency tests
+	
 	@Test
 	public void testValidPublicationFrequency1() throws PublicationExceptionHandler {
 		assertTrue(publication.validatePubFreq("Daily"));
@@ -33,7 +35,7 @@ class PublicationTest {
 	
 	@Test
 	public void testValidPublicationFrequency2() throws PublicationExceptionHandler {
-		assertTrue(publication.validatePubFreq("weekly"));
+		assertTrue(publication.validatePubFreq("Weekly"));
 	}
 	
 	@Test
@@ -50,6 +52,7 @@ class PublicationTest {
 	public void testValidPublicationFrequency5() throws PublicationExceptionHandler {
 		assertTrue(publication.validatePubFreq("Once"));
 	}
+	//Stock tests
 	
 	@Test
 	public void testValidPublicationStock() throws PublicationExceptionHandler {

@@ -9,6 +9,7 @@ public class Publication {
 	private int publicationStock;
 	private double publicationCost;
 	
+	//constructor
 	public Publication (String pubID, String pubName, String pubType, String pubFreq, int pubStock, double pubCost) throws PublicationExceptionHandler{
 		
 		try {
@@ -31,6 +32,7 @@ public class Publication {
 		
 	}
 	
+	// Default Constructor
 	public Publication() {
 		this.publicationID = null;
 		this.publicationName = null;
@@ -40,7 +42,8 @@ public class Publication {
 		this.publicationCost = 0.0;
 		
 	}
-
+	
+	//Getters and Setters
 	public String getPublicationID() {
 		return this.publicationID;
 	}
@@ -88,7 +91,7 @@ public class Publication {
 	public void setPublicationCost(double publicationCost) {
 		this.publicationCost = publicationCost;
 	}
-	
+	// Checkes for a valid Publication ID if not throw exception handler
 	public boolean validatePubID (String pubID ) throws PublicationExceptionHandler {
 		
 		if(pubID.equals("all")) {
@@ -103,7 +106,7 @@ public class Publication {
 		return true;
 	}
 		
-	
+	//Checks for a valid type of publication and invalid inputs in which case throws exception handler
 	public boolean validatePublicationType (String pubType) throws PublicationExceptionHandler {
 		
 		pubType = pubType.toLowerCase();
@@ -118,6 +121,7 @@ public class Publication {
 		}
 	}
 	
+	// Checks for a valid publication name otherwise throw excetion handler for invalid input
 	public boolean validatePubName (String pubName ) throws PublicationExceptionHandler {
 		if (pubName.length() < 4 || pubName.length() > 64)
 		{
@@ -130,6 +134,7 @@ public class Publication {
 		
 	}
 	
+	//check for valid publication frequency and throw exception handler if not valid
 	public boolean validatePubFreq (String pubFreq ) throws PublicationExceptionHandler {
 		
 		pubFreq = pubFreq.toLowerCase();
@@ -146,6 +151,7 @@ public class Publication {
 		
 	}
 	
+	//Check for valid stock throw exception handler to indicate clearly empty stock, and throw exception handler for invalid input
 	public boolean validatePubStock (int pubStock ) throws PublicationExceptionHandler {
 		if (pubStock > 0)
 		{
@@ -163,7 +169,7 @@ public class Publication {
 	}
 	
 	
-
+// Check for valid cost. 0.0 is free and valid. and throws exception handler for invalid inputs the invalid 
 	public boolean validatePubCost (double pubCost) throws PublicationExceptionHandler {
 		if (pubCost >= 0.0)
 		{
