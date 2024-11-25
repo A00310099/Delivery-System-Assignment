@@ -59,19 +59,22 @@ public class UserCommandLine {
 				case "delivery docket":
 				case "dd":
 				case "5":
-					manageDeliveryDocket();
+					System.out.println("Unfortunately, delivery dockets have not been implemented yet.");
+//					manageDeliveryDocket();
 					break;
 					
 				case "delivery area":
 				case "da":
 				case "6":
-					manageDeliveryArea();
+					System.out.println("Unfortunately, delivery areas have not been implemented yet.");
+//					manageDeliveryArea();
 					break;
 					
 				case "delivery person":
 				case "dp":
 				case "7":
-					manageDeliveryPerson();
+					System.out.println("Unfortunately, delivery persons have not been implemented yet.");
+//					manageDeliveryPerson();
 					break;
 					
 				case "exit":
@@ -100,9 +103,9 @@ public class UserCommandLine {
 		System.out.println("2. Publication");
 		System.out.println("3. Order");
 		System.out.println("4. Invoice");
-		System.out.println("5. Delivery Docket");
-		System.out.println("6. Delivery Area");
-		System.out.println("7. Delivery Person");
+		System.out.println("5. Delivery Docket [not implemented]");
+		System.out.println("6. Delivery Area [not implemented]");
+		System.out.println("7. Delivery Person [not implemented]");
 		System.out.println("\n0. [Close] the application");
 		System.out.println(separator + "\n");
 	}
@@ -915,7 +918,7 @@ public class UserCommandLine {
 	    }
 	}
 
-	private static void createInvoice() throws InvoiceExceptionHandler {
+	private static void createInvoice() throws Exception {
 	    System.out.println("----- CREATING NEW INVOICE -----");
 	    System.out.print("Enter customer ID for this invoice: ");
 	    String customerId = in.nextLine();
@@ -925,7 +928,7 @@ public class UserCommandLine {
 	    try {
 	        Invoice invoice = new Invoice(customerId, totalCost);
 	
-	        if (db.insertCustomerDetailsAccount(invoice)) {
+	        if (db.insertInvoiceDetailsAccount(invoice)) {
 	            System.out.println("New invoice created and saved to database.");
 	        } else {
 	            System.out.println("Failed to save the new invoice.");

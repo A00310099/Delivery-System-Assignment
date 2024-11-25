@@ -229,7 +229,7 @@ public class Database {
     }
     // ==================== INVOICE METHODS ====================
     
-    public boolean insertCustomerDetailsAccount(Invoice i) {
+    public boolean insertInvoiceDetailsAccount(Invoice i) throws Exception {
         boolean insertSucessful = true;
         try {
             preparedStatement = connect.prepareStatement("INSERT INTO invoices (customer_id, total_cost, reminder, status, invoice_id) VALUES (?, ?, ?, ?, ?)");
@@ -240,8 +240,8 @@ public class Database {
     		preparedStatement.setString(5, i.getInvoiceID());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
             insertSucessful = false;
+            throw e;
         }
         return insertSucessful;
     }
